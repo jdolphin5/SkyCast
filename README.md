@@ -7,4 +7,4 @@ The application will fetch weather data and display it on an interactive fronten
 
 Frontend: HTML, CSS, Typescript, ReactJS, Webpack
 
-Backend: Typescript, NodeJS, ExpressJS, MySQL, Drizzle ORM
+Backend: Typescript, NodeJS, ExpressJS, MS SQL, Drizzle ORM
