@@ -1,1 +1,10 @@
+
+# Misc ignores
 /docs
+
+
+# Server ignores
+/server/dist/
+/server/node_modules
+/server/package-lock.json
+/server/src/.env
