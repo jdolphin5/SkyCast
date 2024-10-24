@@ -1,7 +1,7 @@
 import express, { Express, Request, Response } from "express";
 import dotenv from "dotenv";
 import swaggerDocs from "./swagger.js"; // ts compiles to js
-import { reportError, getErrorMessage } from "./util/error.js";
+import { reportError, getErrorMessage } from "./utils/error.js";
 
 dotenv.config();
 
