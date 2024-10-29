@@ -10,7 +10,11 @@
     "keywords": [
         "nodejs",
         "mongoose",
-        "backend"
+        "backend",
+        "database",
+        "mongo",
+        "mongodb",
+        "web-based"
     ],
     "author": "James Dolphin",
     "license": "ISC",
@@ -22,6 +26,8 @@
         "dotenv": "^16.4.5",
         "express": "^4.21.1",
         "express-winston": "^4.2.0",
+        "mongodb": "^6.10.0",
+        "mongoose": "^8.7.3",
         "skycast-server": "file:",
         "typescript": "^5.6.3",
         "winston": "^3.15.0"
