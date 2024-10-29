@@ -7,4 +7,4 @@
 /server/dist/
 /server/node_modules
 /server/package-lock.json
-/server/src/.env
+/server/.env
