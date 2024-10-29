@@ -1,10 +1,10 @@
 
 # Misc ignores
 /docs
-/logs
 
 # Server ignores
 /server/dist/
 /server/node_modules
 /server/package-lock.json
 /server/.env
+/server/logs
