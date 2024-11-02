@@ -3,7 +3,8 @@ import dotenv from "dotenv";
 import swaggerDocs from "./swagger.js"; // ts compiles to js
 import { reportError, getErrorMessage } from "./utils/error.js";
 import { logRequest } from "./middlewares/requestLogger.js";
-import { mongoose }, mongoose from "mongoose";
+import mongoose from "mongoose";
+import { VisualCrossing } from "./models/visualCrossing.js";
 
 dotenv.config();
 
@@ -16,7 +17,7 @@ const dbURI: string =
     ":" +
     process.env.MONGO_DB_PASSWORD +
     "@vc.7tdrb.mongodb.net/" +
-    process.env.MONGO_DB_COLLECTION_ONE +
+    process.env.MONGO_DB_NAME +
     "?retryWrites=true&w=majority&appName=vc";
 
 mongoose
@@ -28,6 +29,28 @@ app.use(logRequest);
 
 app.get("/", (req: Request, res: Response) => {
     res.send("Successful response.");
+});
+
+app.get("/VisualCrossing", (req: Request, res: Response) => {
+    VisualCrossing.find()
+        .then((result: object) => {
+            res.send(result);
+        })
+        .catch((err: Error) => {
+            console.log(err);
+        });
+});
+
+app.get("/VisualCrossing/:id", (req: Request, res: Response) => {
+    const id: String = req.params.id;
+
+    VisualCrossing.findById(id)
+        .then((result: object | null) => {
+            res.send(result);
+        })
+        .catch((err: Error) => {
+            console.log(err);
+        });
 });
 
 try {
