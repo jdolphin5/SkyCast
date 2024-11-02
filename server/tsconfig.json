@@ -10,5 +10,6 @@
     },
     "include": [
         "src/**/*.ts" // ts files in the 'src' directory and its subdirectories
-    ]
+    ],
+    "exclude": ["node_modules"]
 }
