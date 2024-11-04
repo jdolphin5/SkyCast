@@ -10,7 +10,7 @@ const App: React.FC = () => {
       style={{
         textAlign: "center",
         width: "375px",
-        height: "667px",
+        height: "auto",
         border: "1px solid black",
         backgroundColor: "#BABABA",
       }}
@@ -22,14 +22,7 @@ const App: React.FC = () => {
           height: "20px",
         }}
       ></div>
-      <div
-        style={{
-          margin: "auto",
-          width: "339px",
-          height: "60px",
-          border: "1px solid black",
-        }}
-      >
+      <div>
         <Header />
       </div>
       <div
@@ -39,14 +32,7 @@ const App: React.FC = () => {
           height: "20px",
         }}
       ></div>
-      <div
-        style={{
-          margin: "auto",
-          width: "339px",
-          height: "150px",
-          border: "1px solid black",
-        }}
-      >
+      <div>
         <Summary />
       </div>
       <div
@@ -56,14 +42,7 @@ const App: React.FC = () => {
           height: "20px",
         }}
       ></div>
-      <div
-        style={{
-          margin: "auto",
-          width: "339px",
-          height: "180px",
-          border: "1px solid black",
-        }}
-      >
+      <div>
         <OneWeekForecast />
       </div>
       <div
