@@ -1,5 +1,5 @@
 import React from "react";
-import Header from "./Header";
+import Header from "./Header/Header";
 import Summary from "./Summary";
 import OneWeekForecast from "./OneWeekForecast";
 import MiscDetails from "./MiscDetails";
