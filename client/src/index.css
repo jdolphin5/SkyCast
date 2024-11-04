@@ -1,0 +1,14 @@
+body {
+    font-family: Arial;
+}
+
+.grid-wrapper-header {
+    display: grid;
+    grid-template-columns: 120px 1fr;
+}
+
+.grid-wrapper-one-week-forecast {
+    display: grid;
+    grid-template-columns: 1fr 1.2fr 0.4fr 0.1fr 0.4fr;
+    grid-gap: "20px";
+}
