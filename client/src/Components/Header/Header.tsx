@@ -1,8 +1,13 @@
-import React, { useState } from "react";
+import React, { Dispatch, SetStateAction, useState } from "react";
 import CustomSelect from "./CustomSelect";
 import NavigationMenu from "./NavigationMenu";
 
-const Header: React.FC = () => {
+interface HeaderProps {
+  navigationSelected: string;
+  setNavigationSelected: Dispatch<SetStateAction<string>>;
+}
+
+const Header: React.FC<HeaderProps> = (props: HeaderProps) => {
   const [showHideMenu, setShowHideMenu] = useState(false);
 
   const openMainMenu = (): void => {
@@ -100,7 +105,10 @@ const Header: React.FC = () => {
               border: "1px solid black",
             }}
           >
-            <NavigationMenu />
+            <NavigationMenu
+              navigationSelected={props.navigationSelected}
+              setNavigationSelected={props.setNavigationSelected}
+            />
           </div>
         )}
       </div>
