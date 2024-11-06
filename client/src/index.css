@@ -1,9 +1,3 @@
-/*
-
-    The project is currently primarily using React inline styles
-
-*/
-
 body {
     font-family: Arial;
 }
@@ -21,4 +15,64 @@ body {
     display: grid;
     grid-template-columns: 1fr 1.2fr 0.4fr 0.1fr 0.4fr;
     grid-gap: "20px";
+}
+
+/* class used to change colour for hovered text */
+.hoverClassColor:hover {
+    color: var(--hover-color) !important;
+}
+
+.sub-menu-container {
+    font-size: 12px;
+    text-align: left;
+    padding-left: 15px;
+    padding-right: 15px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    background-color: #333333;
+    color: #8A8A87;
+}
+
+.grid-sub-menu-title {
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    padding: 0px 0px 0px 0px;
+    font-size: 20px;
+}
+
+.grid-sub-menu-title-left {
+    padding: 0;
+    text-align: left;
+}
+
+.grid-sub-menu-title-left h1 {
+    padding: 0;
+    margin: 0;
+    font-size: 20px;
+}
+
+.grid-sub-menu-title-right {
+    padding: 0;
+    margin: 0;
+    font-size: 20px;
+    text-align: right;
+}
+
+.sub-menu-list h2 {
+    padding: 0;
+    margin: 0;
+    text-align: center;
+    background-color: #444444;
+    color: #EEEEEE;
+}
+
+.sub-menu-list ul {
+    padding: 2px 20px 2px 20px;
+    margin: 0;
+    list-style-type: none;
+    font-size: 14px;
+}
+
+.sub-menu-list li {
+    padding: 2px 0px 2px 0px;
 }
