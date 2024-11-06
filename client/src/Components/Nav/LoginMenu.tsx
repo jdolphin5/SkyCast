@@ -1,19 +1,17 @@
 import React, { Dispatch, SetStateAction } from "react";
 
-interface SettingsMenuProps {
+interface LoginMenuProps {
   navigationSelected: string;
   setNavigationSelected: Dispatch<SetStateAction<string>>;
 }
 
-const SettingsMenu: React.FC<SettingsMenuProps> = (
-  props: SettingsMenuProps
-) => {
+const LoginMenu: React.FC<LoginMenuProps> = (props: LoginMenuProps) => {
   return (
     <div className="sub-menu-container">
       <div className="grid-sub-menu-title">
         {/*Left column with Nav Title */}
         <div className="grid-sub-menu-title-left">
-          <h1>SETTINGS</h1>
+          <h1>LOGIN</h1>
         </div>
         {/*Right column with X to close*/}
         <div
@@ -37,14 +35,13 @@ const SettingsMenu: React.FC<SettingsMenuProps> = (
       </div>
 
       <div className="sub-menu-list">
-        <h2>UNITS</h2>
         <ul>
-          <li>Metric</li>
-          <li>Imperial</li>
+          <li>Username</li>
+          <li>Password</li>
         </ul>
       </div>
     </div>
   );
 };
 
-export default SettingsMenu;
+export default LoginMenu;

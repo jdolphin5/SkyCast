@@ -1,19 +1,19 @@
 import React, { Dispatch, SetStateAction } from "react";
 
-interface SettingsMenuProps {
+interface PushNotificationsMenuProps {
   navigationSelected: string;
   setNavigationSelected: Dispatch<SetStateAction<string>>;
 }
 
-const SettingsMenu: React.FC<SettingsMenuProps> = (
-  props: SettingsMenuProps
+const PushNotificationsMenu: React.FC<PushNotificationsMenuProps> = (
+  props: PushNotificationsMenuProps
 ) => {
   return (
     <div className="sub-menu-container">
       <div className="grid-sub-menu-title">
         {/*Left column with Nav Title */}
         <div className="grid-sub-menu-title-left">
-          <h1>SETTINGS</h1>
+          <h1>PUSH NOTIFICATIONS</h1>
         </div>
         {/*Right column with X to close*/}
         <div
@@ -37,14 +37,13 @@ const SettingsMenu: React.FC<SettingsMenuProps> = (
       </div>
 
       <div className="sub-menu-list">
-        <h2>UNITS</h2>
         <ul>
-          <li>Metric</li>
-          <li>Imperial</li>
+          <li>Enable</li>
+          <li>Disable</li>
         </ul>
       </div>
     </div>
   );
 };
 
-export default SettingsMenu;
+export default PushNotificationsMenu;

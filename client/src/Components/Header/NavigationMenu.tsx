@@ -12,10 +12,18 @@ const NavigationMenu: React.FC<NavigationMenuProps> = (
     <div
       style={{
         textAlign: "left",
-        backgroundColor: "#ABABAB",
+        backgroundColor: "#444444",
+        color: "#EEEEEE",
+        fontSize: "18px",
       }}
     >
-      <ul style={{ listStyleType: "none", padding: "0px 10px 0px 10px" }}>
+      <ul
+        style={{
+          listStyleType: "none",
+          padding: "10px 10px 10px 10px",
+          margin: "0px",
+        }}
+      >
         {/* Settings will include units - metric/imperial */}
         <li
           style={{ cursor: "pointer" }}
@@ -23,11 +31,26 @@ const NavigationMenu: React.FC<NavigationMenuProps> = (
         >
           Settings
         </li>
-        {/* Theme will include light/dark mode */}
-        <li>Theme</li>
+        {/* Themes will include light/dark mode */}
+        <li
+          style={{ cursor: "pointer" }}
+          onClick={() => props.setNavigationSelected("themes")}
+        >
+          Themes
+        </li>
         {/* Push notifications will have an interface to enable/disable and define based on metrics */}
-        <li>Push Notifications</li>
-        <li>Login</li>
+        <li
+          style={{ cursor: "pointer" }}
+          onClick={() => props.setNavigationSelected("pushnotifications")}
+        >
+          Push Notifications
+        </li>
+        <li
+          style={{ cursor: "pointer" }}
+          onClick={() => props.setNavigationSelected("login")}
+        >
+          Login
+        </li>
       </ul>
     </div>
   );
