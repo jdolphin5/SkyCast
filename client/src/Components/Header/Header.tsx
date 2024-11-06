@@ -5,14 +5,15 @@ import NavigationMenu from "./NavigationMenu";
 interface HeaderProps {
   navigationSelected: string;
   setNavigationSelected: Dispatch<SetStateAction<string>>;
+  showHideMenu: boolean;
+  setShowHideMenu: Dispatch<SetStateAction<boolean>>;
 }
 
 const Header: React.FC<HeaderProps> = (props: HeaderProps) => {
-  const [showHideMenu, setShowHideMenu] = useState(false);
-
   const openMainMenu = (): void => {
     console.log("clicked");
-    setShowHideMenu(!showHideMenu);
+    props.setShowHideMenu(!props.showHideMenu);
+    props.setNavigationSelected("none");
   };
 
   return (
@@ -26,9 +27,9 @@ const Header: React.FC<HeaderProps> = (props: HeaderProps) => {
       <div
         style={{
           display: "grid",
-          gridTemplateRows: showHideMenu ? "50px 1fr" : "50px",
+          gridTemplateRows: props.showHideMenu ? "50px 1fr" : "50px",
           gridTemplateColumns: "120px 1fr",
-          gridTemplateAreas: showHideMenu
+          gridTemplateAreas: props.showHideMenu
             ? `
                     "navGridAreaCol1 navGridAreaCol2"
                     "navGridAreaCol3 navGridAreaCol3"
@@ -74,9 +75,20 @@ const Header: React.FC<HeaderProps> = (props: HeaderProps) => {
               >
                 ≡ MENU
               </div>
-              {showHideMenu && (
+              {props.showHideMenu && (
                 <div style={{ padding: "0px 0px 0px 0px", textAlign: "right" }}>
-                  X
+                  <p
+                    className={"hoverClassColor"}
+                    style={
+                      {
+                        margin: "0px",
+                        padding: "0px",
+                        "--hover-color": "red",
+                      } as React.CSSProperties
+                    }
+                  >
+                    X
+                  </p>
                 </div>
               )}
             </div>
@@ -87,7 +99,7 @@ const Header: React.FC<HeaderProps> = (props: HeaderProps) => {
         <div
           style={{
             backgroundColor: "#FFFFFF",
-            padding: "5px 0px 5px 0px",
+            padding: "0px 0px 0px 0px",
             gridArea: "navGridAreaCol2",
           }}
         >
@@ -96,7 +108,7 @@ const Header: React.FC<HeaderProps> = (props: HeaderProps) => {
           </div>
         </div>
         {/* Menu area to display when showHideMainMenu is set */}
-        {showHideMenu && (
+        {props.showHideMenu && (
           <div
             style={{
               gridArea: "navGridAreaCol3",
