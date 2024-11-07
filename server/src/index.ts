@@ -6,6 +6,7 @@ import { logRequest } from "./middlewares/requestLogger.js";
 import mongoose from "mongoose";
 import { visualCrossingRouter } from "./routes/visualCrossing.js";
 import { openWeatherMapRouter } from "./routes/openWeatherMap.js";
+import cors from "cors";
 
 dotenv.config();
 
@@ -27,6 +28,7 @@ mongoose
     .catch((err: Error) => console.log(err));
 
 app.use(logRequest);
+app.use(cors());
 
 app.get("/", (req: Request, res: Response) => {
     res.send("Successful response.");
