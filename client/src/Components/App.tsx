@@ -1,16 +1,32 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import VerticalSpacing from "./VerticalSpacing";
 import Header from "./Header/Header";
 import Summary from "./Summary";
 import OneWeekForecast from "./OneWeekForecast";
 import MiscDetails from "./MiscDetails";
-import SettingsMenu from "./Nav/SettingsMenu";
-import ThemesMenu from "./Nav/ThemesMenu";
-import PushNotificationsMenu from "./Nav/PushNotificationsMenu";
-import LoginMenu from "./Nav/LoginMenu";
+import NavLayout from "./Nav/NavLayout";
+import * as schedule from "node-schedule";
+import { CronJobFunc } from "../scripts/job";
+import axios, { AxiosResponse } from "axios";
 
 const App: React.FC = () => {
   const [navigationSelected, setNavigationSelected] = useState<string>("none");
   const [showHideMenu, setShowHideMenu] = useState(false);
+
+  useEffect(() => {
+    axios
+      .get(
+        "http://localhost:3000/openWeatherMap/GetCoordinates/Newcastle/NSW/AU"
+      )
+      .then((response: AxiosResponse) => {
+        console.log(response.data);
+      });
+  }, []);
+
+  /* Cron Job to call latest API call at top of every minute */
+  const job = schedule.scheduleJob("20 * * * * *", () => {
+    CronJobFunc();
+  });
 
   return (
     <div
@@ -22,143 +38,23 @@ const App: React.FC = () => {
         backgroundColor: "#BABABA",
       }}
     >
-      <div
-        style={{
-          margin: "auto",
-          width: "375px",
-          height: "20px",
-        }}
-      ></div>
-      <div>
-        <Header
-          navigationSelected={navigationSelected}
-          setNavigationSelected={setNavigationSelected}
-          showHideMenu={showHideMenu}
-          setShowHideMenu={setShowHideMenu}
-        />
-      </div>
-      {navigationSelected === "settings" && showHideMenu && (
-        <div>
-          <div
-            style={{
-              margin: "auto",
-              width: "339px",
-              border: "1px solid black",
-            }}
-          >
-            <SettingsMenu
-              navigationSelected={navigationSelected}
-              setNavigationSelected={setNavigationSelected}
-            />
-          </div>
-          <div
-            style={{
-              margin: "auto",
-              width: "375px",
-              height: "20px",
-            }}
-          ></div>
-        </div>
-      )}
-      {navigationSelected === "themes" && showHideMenu && (
-        <div>
-          <div
-            style={{
-              margin: "auto",
-              width: "339px",
-              border: "1px solid black",
-            }}
-          >
-            <ThemesMenu
-              navigationSelected={navigationSelected}
-              setNavigationSelected={setNavigationSelected}
-            />
-          </div>
-          <div
-            style={{
-              margin: "auto",
-              width: "375px",
-              height: "20px",
-            }}
-          ></div>
-        </div>
-      )}
-      {navigationSelected === "pushnotifications" && showHideMenu && (
-        <div>
-          <div
-            style={{
-              margin: "auto",
-              width: "339px",
-              border: "1px solid black",
-            }}
-          >
-            <PushNotificationsMenu
-              navigationSelected={navigationSelected}
-              setNavigationSelected={setNavigationSelected}
-            />
-          </div>
-          <div
-            style={{
-              margin: "auto",
-              width: "375px",
-              height: "20px",
-            }}
-          ></div>
-        </div>
-      )}
-      {navigationSelected === "login" && showHideMenu && (
-        <div>
-          <div
-            style={{
-              margin: "auto",
-              width: "339px",
-              border: "1px solid black",
-            }}
-          >
-            <LoginMenu
-              navigationSelected={navigationSelected}
-              setNavigationSelected={setNavigationSelected}
-            />
-          </div>
-          <div
-            style={{
-              margin: "auto",
-              width: "375px",
-              height: "20px",
-            }}
-          ></div>
-        </div>
-      )}
-      {navigationSelected === "none" && (
-        <div
-          style={{
-            margin: "auto",
-            width: "375px",
-            height: "20px",
-          }}
-        ></div>
-      )}
-
-      <div>
-        <Summary />
-      </div>
-      <div
-        style={{
-          margin: "auto",
-          width: "375px",
-          height: "20px",
-        }}
-      ></div>
-      <div>
-        <OneWeekForecast />
-      </div>
-      <div
-        style={{
-          margin: "auto",
-          width: "375px",
-          height: "20px",
-        }}
-      ></div>
+      <VerticalSpacing />
+      <Header
+        navigationSelected={navigationSelected}
+        setNavigationSelected={setNavigationSelected}
+        showHideMenu={showHideMenu}
+        setShowHideMenu={setShowHideMenu}
+      />
+      <NavLayout
+        navigationSelected={navigationSelected}
+        setNavigationSelected={setNavigationSelected}
+        showHideMenu={showHideMenu}
+        setShowHideMenu={setShowHideMenu}
+      />
+      <Summary />
+      <VerticalSpacing />
+      <OneWeekForecast />
+      <VerticalSpacing />
       <div
         style={{
           margin: "auto",
@@ -169,13 +65,7 @@ const App: React.FC = () => {
       >
         <MiscDetails />
       </div>
-      <div
-        style={{
-          margin: "auto",
-          width: "375px",
-          height: "20px",
-        }}
-      ></div>
+      <VerticalSpacing />
     </div>
   );
 };
