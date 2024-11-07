@@ -12,5 +12,7 @@
   "include": [
     "src/**/*" // files in the 'src' directory and its subdirectories
   ],
-  "exclude": ["node_modules"]
+  "exclude": ["node_modules"],
+
+  "allowJs": true
 }
