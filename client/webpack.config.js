@@ -1,5 +1,16 @@
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
+const webpack = require("webpack");
+const dotenv = require("dotenv");
+
+dotenv.config();
+
+const envKeys = Object.keys(process.env)
+  .filter((key) => key.startsWith("REACT_APP_"))
+  .reduce((acc, key) => {
+    acc[`process.env.${key}`] = JSON.stringify(process.env[key]);
+    return acc;
+  }, {});
 
 module.exports = {
   mode: "development",
@@ -31,5 +42,6 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: "./public/index.html",
     }),
+    new webpack.DefinePlugin(envKeys),
   ],
 };

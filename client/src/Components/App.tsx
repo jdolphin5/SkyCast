@@ -16,7 +16,8 @@ const App: React.FC = () => {
   useEffect(() => {
     axios
       .get(
-        "http://localhost:3000/openWeatherMap/GetCoordinates/Newcastle/NSW/AU"
+        process.env.REACT_APP_SERVER_URI +
+          "/openWeatherMap/GetCoordinates/Newcastle/NSW/AU"
       )
       .then((response: AxiosResponse) => {
         console.log(response.data);
