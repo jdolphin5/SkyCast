@@ -1,0 +1,44 @@
+export type OpenWeatherMapObject = {
+  _id: string;
+  name: string;
+  datetime: string;
+  tempmax: number;
+  tempmin: number;
+  temp: number;
+  feelslikemax: number;
+  feelslikemin: number;
+  feelslike: number;
+  dew: number;
+  humidity: number;
+  precip: number;
+  precipprob: number;
+  precipcover: number;
+  preciptype: string;
+  snow: number;
+  snowdepth: number;
+  windgust: number;
+  windspeed: number;
+  winddir: number;
+  sealevelpressure: number;
+  cloudcover: number;
+  visibility: number;
+  solarradiation: number;
+  solarenergy: number;
+  uvindex: number;
+  severerisk: number;
+  sunrise: string;
+  sunset: string;
+  moonphase: number;
+  conditions: string;
+  description: string;
+  icon: string;
+  stations: string;
+};
+
+export type CoordinatesObject = {
+  lat: number;
+  lon: number;
+  city: string;
+  state: string;
+  country: string;
+};
