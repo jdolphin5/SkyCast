@@ -1,38 +1,30 @@
 export type OpenWeatherMapObject = {
-  _id: string;
-  name: string;
   datetime: string;
+  temp: number;
   tempmax: number;
   tempmin: number;
-  temp: number;
-  feelslikemax: number;
-  feelslikemin: number;
-  feelslike: number;
-  dew: number;
+  pressure: number;
+  sea_level: number;
+  grnd_level: number;
   humidity: number;
-  precip: number;
-  precipprob: number;
-  precipcover: number;
-  preciptype: string;
-  snow: number;
-  snowdepth: number;
-  windgust: number;
-  windspeed: number;
-  winddir: number;
-  sealevelpressure: number;
-  cloudcover: number;
+  temp_kf: number;
+  weather: WeatherObject[];
+  clouds_all: number;
+  wind_speed: number;
+  wind_deg: number;
+  wind_gust: number;
   visibility: number;
-  solarradiation: number;
-  solarenergy: number;
-  uvindex: number;
-  severerisk: number;
-  sunrise: string;
-  sunset: string;
-  moonphase: number;
-  conditions: string;
+  pop: number;
+  rain_chance_3h: number;
+  sys_pod: string;
+  datetime_txt: string;
+};
+
+export type WeatherObject = {
+  id: number;
+  main: string;
   description: string;
   icon: string;
-  stations: string;
 };
 
 export type CoordinatesObject = {
