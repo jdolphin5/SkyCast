@@ -51,6 +51,10 @@ const App: React.FC = () => {
     }
   }, [coordinatesData]);
 
+  useEffect(() => {
+    console.log(weatherData);
+  }, [weatherData]);
+
   /* Cron Job to call latest API call at top of every minute */
   const job = schedule.scheduleJob("20 * * * * *", () => {
     CronJobFunc();

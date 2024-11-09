@@ -1,5 +1,9 @@
 import { Axios, AxiosResponse } from "axios";
-import { CoordinatesObject, OpenWeatherMapObject } from "../types";
+import {
+  CoordinatesObject,
+  OpenWeatherMapObject,
+  WeatherObject,
+} from "../types";
 
 export const mapCoordinatesResponse = (response: AxiosResponse) => {
   const res: CoordinatesObject = {
@@ -14,40 +18,47 @@ export const mapCoordinatesResponse = (response: AxiosResponse) => {
 };
 
 export const mapWeatherDataResponse = (response: AxiosResponse) => {
-  const res: OpenWeatherMapObject[] = {
-    _id: response.data.id,
-    name: response.data.name,
-    datetime: response.data.datetime,
-    tempmax: response.data.tempmax,
-    tempmin: response.data.tempmin,
-    temp: response.data.temp,
-    feelslikemax: response.data.feelslikemax,
-    feelslikemin: response.data.feelslikemin,
-    feelslike: response.data.feelslike,
-    dew: response.data.dew,
-    humidity: response.data.humidity,
-    precip: response.data.precip,
-    precipprob: response.data.precipprob,
-    precipcover: response.data.precipcover,
-    preciptype: response.data.preciptype,
-    snow: response.data.snow,
-    snowdepth: response.data.snowdepth,
-    windgust: response.data.windgust,
-    windspeed: response.data.windspeed,
-    winddir: response.data.winddir,
-    sealevelpressure: response.data.sealevelpressure,
-    cloudcover: response.data.cloudcover,
-    visibility: response.data.visibility,
-    solarradiation: response.data.solarradiation,
-    solarenergy: response.data.solarenergy,
-    uvindex: response.data.uvindex,
-    severerisk: response.data.severerisk,
-    sunrise: response.data.sunrise,
-    sunset: response.data.sunset,
-    moonphase: response.data.moonphase,
-    conditions: response.data.conditions,
-    description: response.data.description,
-    icon: response.data.icon,
-    stations: response.data.stations,
-  };
+  let res: OpenWeatherMapObject[] = [];
+
+  response.data.list.map((d: any) => {
+    let weatherArr: WeatherObject[] = [];
+
+    d.weather.map((f: any) => {
+      const w: WeatherObject = {
+        id: f.id,
+        main: f.main,
+        description: f.description,
+        icon: f.icon,
+      };
+
+      weatherArr.push(w);
+    });
+
+    const obj: OpenWeatherMapObject = {
+      datetime: d.dt,
+      temp: d.main.temp,
+      tempmax: d.main.temp_max,
+      tempmin: d.main.temp_min,
+      pressure: d.main.pressure,
+      sea_level: d.main.sea_level,
+      grnd_level: d.main.grnd_level,
+      humidity: d.main.humidity,
+      temp_kf: d.main.temp_kf,
+      weather: weatherArr,
+      clouds_all: d.clouds.all,
+
+      wind_speed: d.wind.speed,
+      wind_deg: d.wind.deg,
+      wind_gust: d.wind.gust,
+      visibility: d.visibility,
+      pop: d.pop,
+      rain_chance_3h: d.rain ? d.rain["3h"] : undefined,
+      sys_pod: d.sys.pod,
+      datetime_txt: d.dt_txt,
+    };
+
+    res.push(obj);
+  });
+
+  return res;
 };
