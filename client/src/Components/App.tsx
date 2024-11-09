@@ -46,7 +46,7 @@ const App: React.FC = () => {
         )
         .then((response: AxiosResponse) => {
           console.log(response);
-          //setWeatherData(mapWeatherDataResponse(response));
+          setWeatherData(mapWeatherDataResponse(response));
         });
     }
   }, [coordinatesData]);
