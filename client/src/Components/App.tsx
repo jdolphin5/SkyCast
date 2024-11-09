@@ -8,10 +8,20 @@ import NavLayout from "./Nav/NavLayout";
 import * as schedule from "node-schedule";
 import { CronJobFunc } from "../scripts/job";
 import axios, { AxiosResponse } from "axios";
+import {
+  mapCoordinatesResponse,
+  mapWeatherDataResponse,
+} from "../Mappers/OpenWeatherData";
+import { CoordinatesObject, OpenWeatherMapObject } from "../types";
 
 const App: React.FC = () => {
   const [navigationSelected, setNavigationSelected] = useState<string>("none");
   const [showHideMenu, setShowHideMenu] = useState(false);
+  const [coordinatesData, setCoordinatesData] =
+    useState<CoordinatesObject | null>(null);
+  const [weatherData, setWeatherData] = useState<OpenWeatherMapObject[] | null>(
+    null
+  );
 
   useEffect(() => {
     axios
@@ -20,9 +30,26 @@ const App: React.FC = () => {
           "/openWeatherMap/GetCoordinates/Newcastle/NSW/AU"
       )
       .then((response: AxiosResponse) => {
-        console.log(response.data);
+        setCoordinatesData(mapCoordinatesResponse(response));
       });
   }, []);
+
+  useEffect(() => {
+    if (coordinatesData) {
+      axios
+        .get(
+          process.env.REACT_APP_SERVER_URI +
+            "/openWeatherMap/GetForecast/" +
+            coordinatesData.lat +
+            "/" +
+            coordinatesData.lon
+        )
+        .then((response: AxiosResponse) => {
+          console.log(response);
+          //setWeatherData(mapWeatherDataResponse(response));
+        });
+    }
+  }, [coordinatesData]);
 
   /* Cron Job to call latest API call at top of every minute */
   const job = schedule.scheduleJob("20 * * * * *", () => {
