@@ -1,14 +1,16 @@
-import { Axios, AxiosResponse } from "axios";
+import { AxiosResponse } from "axios";
 import {
-  CoordinatesObject,
-  OpenWeatherMapObject,
-  WeatherObject,
+  OpenWeatherMap_Coordinates_Object,
+  OpenWeatherMap_Object,
+  OpenWeatherMap_Weather_Object,
+  OpenWeatherMap_Three_Hour_Object,
+  OpenWeatherMap_City_Object,
 } from "../types";
 
 export const mapCoordinatesResponse = (
   response: AxiosResponse
-): CoordinatesObject => {
-  const res: CoordinatesObject = {
+): OpenWeatherMap_Coordinates_Object => {
+  const res: OpenWeatherMap_Coordinates_Object = {
     lat: response.data[0].lat,
     lon: response.data[0].lon,
     city: response.data[0].name,
@@ -21,14 +23,14 @@ export const mapCoordinatesResponse = (
 
 export const mapWeatherDataResponse = (
   response: AxiosResponse
-): OpenWeatherMapObject[] => {
-  let res: OpenWeatherMapObject[] = [];
+): OpenWeatherMap_Object => {
+  let three_hour_res: OpenWeatherMap_Three_Hour_Object[] = [];
 
   response.data.list.map((d: any) => {
-    let weatherArr: WeatherObject[] = [];
+    let weatherArr: OpenWeatherMap_Weather_Object[] = [];
 
     d.weather.map((f: any) => {
-      const w: WeatherObject = {
+      const w: OpenWeatherMap_Weather_Object = {
         id: f.id,
         main: f.main,
         description: f.description,
@@ -38,7 +40,7 @@ export const mapWeatherDataResponse = (
       weatherArr.push(w);
     });
 
-    const obj: OpenWeatherMapObject = {
+    const obj: OpenWeatherMap_Three_Hour_Object = {
       datetime: d.dt,
       temp: d.main.temp,
       tempmax: d.main.temp_max,
@@ -61,8 +63,25 @@ export const mapWeatherDataResponse = (
       datetime_txt: d.dt_txt,
     };
 
-    res.push(obj);
+    three_hour_res.push(obj);
   });
+
+  const city_res: OpenWeatherMap_City_Object = {
+    id: response.data.city.id,
+    name: response.data.city.name,
+    lat: response.data.city.coord.lat,
+    lon: response.data.city.coord.lon,
+    country: response.data.city.country,
+    population: response.data.city.population,
+    timezone: response.data.city.timezone,
+    sunrise: response.data.city.sunrise, //Unix, UTC
+    sunset: response.data.city.sunset,
+  };
+
+  const res = {
+    weather: three_hour_res,
+    city: city_res,
+  };
 
   return res;
 };

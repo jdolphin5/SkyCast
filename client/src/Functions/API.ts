@@ -3,10 +3,13 @@ import {
   mapCoordinatesResponse,
   mapWeatherDataResponse,
 } from "../Mappers/OpenWeatherData";
-import { CoordinatesObject, OpenWeatherMapObject } from "../types";
+import {
+  OpenWeatherMap_Coordinates_Object,
+  OpenWeatherMap_Object,
+} from "../types";
 
 export const getCoordinatesData =
-  async (): Promise<CoordinatesObject | null> => {
+  async (): Promise<OpenWeatherMap_Coordinates_Object | null> => {
     try {
       const response: AxiosResponse = await axios.get(
         process.env.REACT_APP_SERVER_URI +
@@ -22,7 +25,7 @@ export const getCoordinatesData =
 export const getWeatherData = async (
   lat: number,
   lon: number
-): Promise<OpenWeatherMapObject[] | null> => {
+): Promise<OpenWeatherMap_Object | null> => {
   try {
     const response: AxiosResponse = await axios.get(
       process.env.REACT_APP_SERVER_URI +

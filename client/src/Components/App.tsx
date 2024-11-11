@@ -6,37 +6,44 @@ import OneWeekForecast from "./OneWeekForecast";
 import MiscDetails from "./MiscDetails";
 import NavLayout from "./Nav/NavLayout";
 import * as schedule from "node-schedule";
-import { CoordinatesObject, OpenWeatherMapObject } from "../types";
+import {
+  OpenWeatherMap_Coordinates_Object,
+  OpenWeatherMap_Object,
+} from "../types";
 import Menu from "./Nav/Menu";
 import { getCoordinatesData, getWeatherData } from "../Functions/API";
 
 const App: React.FC = () => {
   const [navigationSelected, setNavigationSelected] = useState<string>("none");
-  const [showHideMenu, setShowHideMenu] = useState(false);
+  const [shouldShowMenu, setShouldShowMenu] = useState<boolean>(false);
   const [coordinatesData, setCoordinatesData] =
-    useState<CoordinatesObject | null>(null);
-  const [weatherData, setWeatherData] = useState<OpenWeatherMapObject[] | null>(
+    useState<OpenWeatherMap_Coordinates_Object | null>(null);
+  const [weatherData, setWeatherData] = useState<OpenWeatherMap_Object | null>(
     null
   );
   const [lastAPICall, setLastAPICall] = useState<string | null>(null);
   const paramsWeatherDataAPICallRef = useRef({ lat: 1, lon: 1 });
 
   useEffect(() => {
-    getCoordinatesData().then((data: CoordinatesObject | null) =>
-      setCoordinatesData(data)
+    getCoordinatesData().then(
+      (data: OpenWeatherMap_Coordinates_Object | null) =>
+        setCoordinatesData(data)
     );
     setLastAPICall("get_coordinates");
   }, []);
 
   useEffect(() => {
-    if ((coordinatesData as CoordinatesObject) && coordinatesData !== null) {
+    if (
+      (coordinatesData as OpenWeatherMap_Coordinates_Object) &&
+      coordinatesData !== null
+    ) {
       paramsWeatherDataAPICallRef.current = {
         lat: coordinatesData.lat,
         lon: coordinatesData.lon,
       };
 
       getWeatherData(coordinatesData.lat, coordinatesData.lon).then(
-        (data: OpenWeatherMapObject[] | null) => setWeatherData(data)
+        (data: OpenWeatherMap_Object | null) => setWeatherData(data)
       );
       setLastAPICall("get_weather_object");
     }
@@ -51,8 +58,9 @@ const App: React.FC = () => {
 
     if (lastAPICall === "get_coordinates") {
       const job = schedule.scheduleJob("20 * * * * *", () => {
-        getCoordinatesData().then((data: CoordinatesObject | null) =>
-          setCoordinatesData(data)
+        getCoordinatesData().then(
+          (data: OpenWeatherMap_Coordinates_Object | null) =>
+            setCoordinatesData(data)
         );
       });
     } else if (lastAPICall === "get_weather_object") {
@@ -60,7 +68,7 @@ const App: React.FC = () => {
         getWeatherData(
           paramsWeatherDataAPICallRef.current.lat,
           paramsWeatherDataAPICallRef.current.lon
-        ).then((data: OpenWeatherMapObject[] | null) => setWeatherData(data));
+        ).then((data: OpenWeatherMap_Object | null) => setWeatherData(data));
       });
     }
   }, [lastAPICall]);
@@ -79,20 +87,20 @@ const App: React.FC = () => {
       <Header
         navigationSelected={navigationSelected}
         setNavigationSelected={setNavigationSelected}
-        showHideMenu={showHideMenu}
-        setShowHideMenu={setShowHideMenu}
+        shouldShowMenu={shouldShowMenu}
+        setShouldShowMenu={setShouldShowMenu}
       />
       <Menu
         navigationSelected={navigationSelected}
         setNavigationSelected={setNavigationSelected}
-        showHideMenu={showHideMenu}
-        setShowHideMenu={setShowHideMenu}
+        shouldShowMenu={shouldShowMenu}
+        setShouldShowMenu={setShouldShowMenu}
       />
       <NavLayout
         navigationSelected={navigationSelected}
         setNavigationSelected={setNavigationSelected}
-        showHideMenu={showHideMenu}
-        setShowHideMenu={setShowHideMenu}
+        shouldShowMenu={shouldShowMenu}
+        setShouldShowMenu={setShouldShowMenu}
       />
       <Summary />
       <VerticalSpacing />
