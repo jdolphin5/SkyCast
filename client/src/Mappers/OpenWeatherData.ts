@@ -5,7 +5,9 @@ import {
   WeatherObject,
 } from "../types";
 
-export const mapCoordinatesResponse = (response: AxiosResponse) => {
+export const mapCoordinatesResponse = (
+  response: AxiosResponse
+): CoordinatesObject => {
   const res: CoordinatesObject = {
     lat: response.data[0].lat,
     lon: response.data[0].lon,
@@ -17,7 +19,9 @@ export const mapCoordinatesResponse = (response: AxiosResponse) => {
   return res;
 };
 
-export const mapWeatherDataResponse = (response: AxiosResponse) => {
+export const mapWeatherDataResponse = (
+  response: AxiosResponse
+): OpenWeatherMapObject[] => {
   let res: OpenWeatherMapObject[] = [];
 
   response.data.list.map((d: any) => {

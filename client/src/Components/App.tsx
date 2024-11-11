@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import VerticalSpacing from "./VerticalSpacing";
 import Header from "./Header/Header";
 import Summary from "./Summary";
@@ -6,14 +6,9 @@ import OneWeekForecast from "./OneWeekForecast";
 import MiscDetails from "./MiscDetails";
 import NavLayout from "./Nav/NavLayout";
 import * as schedule from "node-schedule";
-import { CronJobFunc } from "../scripts/job";
-import axios, { AxiosResponse } from "axios";
-import {
-  mapCoordinatesResponse,
-  mapWeatherDataResponse,
-} from "../Mappers/OpenWeatherData";
 import { CoordinatesObject, OpenWeatherMapObject } from "../types";
 import Menu from "./Nav/Menu";
+import { getCoordinatesData, getWeatherData } from "../Functions/API";
 
 const App: React.FC = () => {
   const [navigationSelected, setNavigationSelected] = useState<string>("none");
@@ -23,32 +18,27 @@ const App: React.FC = () => {
   const [weatherData, setWeatherData] = useState<OpenWeatherMapObject[] | null>(
     null
   );
+  const [lastAPICall, setLastAPICall] = useState<string | null>(null);
+  const paramsWeatherDataAPICallRef = useRef({ lat: 1, lon: 1 });
 
   useEffect(() => {
-    axios
-      .get(
-        process.env.REACT_APP_SERVER_URI +
-          "/openWeatherMap/GetCoordinates/Newcastle/NSW/AU"
-      )
-      .then((response: AxiosResponse) => {
-        setCoordinatesData(mapCoordinatesResponse(response));
-      });
+    getCoordinatesData().then((data: CoordinatesObject | null) =>
+      setCoordinatesData(data)
+    );
+    setLastAPICall("get_coordinates");
   }, []);
 
   useEffect(() => {
-    if (coordinatesData) {
-      axios
-        .get(
-          process.env.REACT_APP_SERVER_URI +
-            "/openWeatherMap/GetForecast/" +
-            coordinatesData.lat +
-            "/" +
-            coordinatesData.lon
-        )
-        .then((response: AxiosResponse) => {
-          console.log(response);
-          setWeatherData(mapWeatherDataResponse(response));
-        });
+    if ((coordinatesData as CoordinatesObject) && coordinatesData !== null) {
+      paramsWeatherDataAPICallRef.current = {
+        lat: coordinatesData.lat,
+        lon: coordinatesData.lon,
+      };
+
+      getWeatherData(coordinatesData.lat, coordinatesData.lon).then(
+        (data: OpenWeatherMapObject[] | null) => setWeatherData(data)
+      );
+      setLastAPICall("get_weather_object");
     }
   }, [coordinatesData]);
 
@@ -56,10 +46,24 @@ const App: React.FC = () => {
     console.log(weatherData);
   }, [weatherData]);
 
-  /* Cron Job to call latest API call at top of every minute */
-  const job = schedule.scheduleJob("20 * * * * *", () => {
-    CronJobFunc();
-  });
+  useEffect(() => {
+    schedule.gracefulShutdown();
+
+    if (lastAPICall === "get_coordinates") {
+      const job = schedule.scheduleJob("20 * * * * *", () => {
+        getCoordinatesData().then((data: CoordinatesObject | null) =>
+          setCoordinatesData(data)
+        );
+      });
+    } else if (lastAPICall === "get_weather_object") {
+      const job = schedule.scheduleJob("20 * * * * *", () => {
+        getWeatherData(
+          paramsWeatherDataAPICallRef.current.lat,
+          paramsWeatherDataAPICallRef.current.lon
+        ).then((data: OpenWeatherMapObject[] | null) => setWeatherData(data));
+      });
+    }
+  }, [lastAPICall]);
 
   return (
     <div
