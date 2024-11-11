@@ -4,14 +4,14 @@ import CustomSelect from "./CustomSelect";
 interface HeaderProps {
   navigationSelected: string;
   setNavigationSelected: Dispatch<SetStateAction<string>>;
-  showHideMenu: boolean;
-  setShowHideMenu: Dispatch<SetStateAction<boolean>>;
+  shouldShowMenu: boolean;
+  setShouldShowMenu: Dispatch<SetStateAction<boolean>>;
 }
 
 const Header: React.FC<HeaderProps> = (props: HeaderProps) => {
-  const openMainMenu = (): void => {
+  const handleMenuButtonClick = (): void => {
     console.log("clicked");
-    props.setShowHideMenu(!props.showHideMenu);
+    props.setShouldShowMenu(!props.shouldShowMenu);
     props.setNavigationSelected("none");
   };
 
@@ -26,9 +26,9 @@ const Header: React.FC<HeaderProps> = (props: HeaderProps) => {
       <div
         style={{
           display: "grid",
-          gridTemplateRows: props.showHideMenu ? "50px 1fr" : "50px",
+          gridTemplateRows: props.shouldShowMenu ? "50px 1fr" : "50px",
           gridTemplateColumns: "120px 1fr",
-          gridTemplateAreas: props.showHideMenu
+          gridTemplateAreas: props.shouldShowMenu
             ? `
                     "navGridAreaCol1 navGridAreaCol2"
                     "navGridAreaCol3 navGridAreaCol3"
@@ -55,7 +55,7 @@ const Header: React.FC<HeaderProps> = (props: HeaderProps) => {
               padding: "0",
               fontSize: "20px",
             }}
-            onClick={openMainMenu}
+            onClick={handleMenuButtonClick}
           >
             {/* grid for within the MENU button column */}
             <div
@@ -74,10 +74,10 @@ const Header: React.FC<HeaderProps> = (props: HeaderProps) => {
               >
                 ≡ MENU
               </div>
-              {props.showHideMenu && (
+              {props.shouldShowMenu && (
                 <div style={{ padding: "0px 0px 0px 0px", textAlign: "right" }}>
                   <p
-                    className={"hoverClassColor"}
+                    className={"hover-class-color"}
                     style={
                       {
                         margin: "0px",

@@ -19,7 +19,7 @@ const ThemesMenu: React.FC<ThemesMenuProps> = (props: ThemesMenuProps) => {
           onClick={() => props.setNavigationSelected("none")}
         >
           <p
-            className={"hoverClassColor"}
+            className={"hover-class-color"}
             style={
               {
                 margin: "0px",

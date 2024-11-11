@@ -19,7 +19,7 @@ const LoginMenu: React.FC<LoginMenuProps> = (props: LoginMenuProps) => {
           onClick={() => props.setNavigationSelected("none")}
         >
           <p
-            className={"hoverClassColor"}
+            className={"hover-class-color"}
             style={
               {
                 margin: "0px",

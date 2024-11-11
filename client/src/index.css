@@ -18,7 +18,7 @@ body {
 }
 
 /* class used to change colour for hovered text */
-.hoverClassColor:hover {
+.hover-class-color:hover {
     color: var(--hover-color) !important;
 }
 

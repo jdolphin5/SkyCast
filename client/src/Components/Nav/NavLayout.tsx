@@ -8,14 +8,14 @@ import VerticalSpacing from "../VerticalSpacing";
 interface NavLayoutProps {
   navigationSelected: string;
   setNavigationSelected: Dispatch<SetStateAction<string>>;
-  showHideMenu: boolean;
-  setShowHideMenu: Dispatch<SetStateAction<boolean>>;
+  shouldShowMenu: boolean;
+  setShouldShowMenu: Dispatch<SetStateAction<boolean>>;
 }
 
 const NavLayout: React.FC<NavLayoutProps> = (props: NavLayoutProps) => {
   return (
     <>
-      {props.navigationSelected === "settings" && props.showHideMenu && (
+      {props.navigationSelected === "settings" && props.shouldShowMenu && (
         <div>
           <div
             style={{
@@ -32,7 +32,7 @@ const NavLayout: React.FC<NavLayoutProps> = (props: NavLayoutProps) => {
           <VerticalSpacing />
         </div>
       )}
-      {props.navigationSelected === "themes" && props.showHideMenu && (
+      {props.navigationSelected === "themes" && props.shouldShowMenu && (
         <div>
           <div
             style={{
@@ -50,7 +50,7 @@ const NavLayout: React.FC<NavLayoutProps> = (props: NavLayoutProps) => {
         </div>
       )}
       {props.navigationSelected === "pushnotifications" &&
-        props.showHideMenu && (
+        props.shouldShowMenu && (
           <div>
             <div
               style={{
@@ -67,7 +67,7 @@ const NavLayout: React.FC<NavLayoutProps> = (props: NavLayoutProps) => {
             <VerticalSpacing />
           </div>
         )}
-      {props.navigationSelected === "login" && props.showHideMenu && (
+      {props.navigationSelected === "login" && props.shouldShowMenu && (
         <div>
           <div
             style={{

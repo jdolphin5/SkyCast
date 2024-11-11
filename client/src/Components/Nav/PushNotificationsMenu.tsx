@@ -21,7 +21,7 @@ const PushNotificationsMenu: React.FC<PushNotificationsMenuProps> = (
           onClick={() => props.setNavigationSelected("none")}
         >
           <p
-            className={"hoverClassColor"}
+            className={"hover-class-color"}
             style={
               {
                 margin: "0px",
