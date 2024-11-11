@@ -1,6 +1,5 @@
 import React, { Dispatch, SetStateAction, useState } from "react";
 import CustomSelect from "./CustomSelect";
-import NavigationMenu from "./NavigationMenu";
 
 interface HeaderProps {
   navigationSelected: string;
@@ -107,22 +106,7 @@ const Header: React.FC<HeaderProps> = (props: HeaderProps) => {
             <CustomSelect />
           </div>
         </div>
-        {/* Menu area to display when showHideMainMenu is set */}
-        {props.showHideMenu && (
-          <div
-            style={{
-              gridArea: "navGridAreaCol3",
-              width: "356px",
-              textAlign: "left",
-              border: "1px solid black",
-            }}
-          >
-            <NavigationMenu
-              navigationSelected={props.navigationSelected}
-              setNavigationSelected={props.setNavigationSelected}
-            />
-          </div>
-        )}
+        {/* Menu area below MENU button to display when showHideMainMenu is set */}
       </div>
     </div>
   );

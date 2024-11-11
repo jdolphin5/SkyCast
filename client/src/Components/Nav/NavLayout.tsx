@@ -5,16 +5,14 @@ import PushNotificationsMenu from "./PushNotificationsMenu";
 import LoginMenu from "./LoginMenu";
 import VerticalSpacing from "../VerticalSpacing";
 
-interface NavigationMenuProps {
+interface NavLayoutProps {
   navigationSelected: string;
   setNavigationSelected: Dispatch<SetStateAction<string>>;
   showHideMenu: boolean;
   setShowHideMenu: Dispatch<SetStateAction<boolean>>;
 }
 
-const NavLayout: React.FC<NavigationMenuProps> = (
-  props: NavigationMenuProps
-) => {
+const NavLayout: React.FC<NavLayoutProps> = (props: NavLayoutProps) => {
   return (
     <>
       {props.navigationSelected === "settings" && props.showHideMenu && (

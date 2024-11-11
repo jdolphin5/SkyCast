@@ -13,6 +13,7 @@ import {
   mapWeatherDataResponse,
 } from "../Mappers/OpenWeatherData";
 import { CoordinatesObject, OpenWeatherMapObject } from "../types";
+import Menu from "./Nav/Menu";
 
 const App: React.FC = () => {
   const [navigationSelected, setNavigationSelected] = useState<string>("none");
@@ -72,6 +73,12 @@ const App: React.FC = () => {
     >
       <VerticalSpacing />
       <Header
+        navigationSelected={navigationSelected}
+        setNavigationSelected={setNavigationSelected}
+        showHideMenu={showHideMenu}
+        setShowHideMenu={setShowHideMenu}
+      />
+      <Menu
         navigationSelected={navigationSelected}
         setNavigationSelected={setNavigationSelected}
         showHideMenu={showHideMenu}
