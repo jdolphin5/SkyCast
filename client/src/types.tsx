@@ -53,3 +53,10 @@ export type OpenWeatherMap_Coordinates_Object = {
   state: string;
   country: string;
 };
+
+export type OpenWeatherMap_Weather_Day = {
+  day: string;
+  weather_summary: string;
+  low: number;
+  high: number;
+};
