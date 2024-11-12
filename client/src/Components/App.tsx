@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import VerticalSpacing from "./VerticalSpacing";
 import Header from "./Header/Header";
-import Summary from "./Summary";
+import DayForecast from "./DayForecast";
 import OneWeekForecast from "./OneWeekForecast";
 import MiscDetails from "./MiscDetails";
 import NavLayout from "./Nav/NavLayout";
@@ -102,7 +102,7 @@ const App: React.FC = () => {
         shouldShowMenu={shouldShowMenu}
         setShouldShowMenu={setShouldShowMenu}
       />
-      <Summary />
+      <DayForecast />
       <VerticalSpacing />
       <OneWeekForecast />
       <VerticalSpacing />

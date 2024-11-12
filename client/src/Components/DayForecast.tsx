@@ -1,6 +1,6 @@
 import React from "react";
 
-const Summary: React.FC = () => {
+const DayForecast: React.FC = () => {
   return (
     <div
       style={{
@@ -18,8 +18,8 @@ const Summary: React.FC = () => {
       >
         <div
           style={{
-            width: "60%",
-            height: "90%",
+            width: "55%",
+            height: "100%",
             overflow: "auto",
             margin: "auto",
             position: "absolute",
@@ -33,7 +33,9 @@ const Summary: React.FC = () => {
         >
           <div
             style={{
-              fontSize: "18px",
+              fontSize: "12px",
+              marginTop: "10px",
+              marginBottom: "3px",
               marginLeft: "auto",
               marginRight: "auto",
             }}
@@ -42,7 +44,7 @@ const Summary: React.FC = () => {
           </div>
           <div
             style={{
-              fontSize: "14px",
+              fontSize: "12px",
               marginLeft: "auto",
               marginRight: "auto",
             }}
@@ -51,7 +53,7 @@ const Summary: React.FC = () => {
           </div>
           <div
             style={{
-              fontSize: "56px",
+              fontSize: "50px",
               marginLeft: "auto",
               marginRight: "auto",
             }}
@@ -60,7 +62,8 @@ const Summary: React.FC = () => {
           </div>
           <div
             style={{
-              fontSize: "14px",
+              fontSize: "12px",
+              marginBottom: "5px",
               marginLeft: "auto",
               marginRight: "auto",
             }}
@@ -69,7 +72,7 @@ const Summary: React.FC = () => {
           </div>
           <div
             style={{
-              fontSize: "14px",
+              fontSize: "12px",
               marginLeft: "auto",
               marginRight: "auto",
             }}
@@ -82,4 +85,4 @@ const Summary: React.FC = () => {
   );
 };
 
-export default Summary;
+export default DayForecast;
