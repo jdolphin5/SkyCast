@@ -12,6 +12,7 @@ import {
 } from "../types";
 import Menu from "./Nav/Menu";
 import { getCoordinatesData, getWeatherData } from "../Functions/API";
+import Loading from "./Loading";
 
 const App: React.FC = () => {
   const [navigationSelected, setNavigationSelected] = useState<string>("none");
@@ -102,20 +103,29 @@ const App: React.FC = () => {
         shouldShowMenu={shouldShowMenu}
         setShouldShowMenu={setShouldShowMenu}
       />
-      <DayForecast />
-      <VerticalSpacing />
-      <OneWeekForecast />
-      <VerticalSpacing />
-      <div
-        style={{
-          margin: "auto",
-          width: "339px",
-          height: "180px",
-          border: "1px solid black",
-        }}
-      >
-        <MiscDetails />
-      </div>
+      {!weatherData && <Loading />}
+      {weatherData && (
+        <div>
+          <DayForecast />
+          <VerticalSpacing />
+          <OneWeekForecast
+            weatherData={weatherData}
+            setWeatherData={setWeatherData}
+          />
+          <VerticalSpacing />
+          <div
+            style={{
+              margin: "auto",
+              width: "339px",
+              height: "180px",
+              border: "1px solid black",
+            }}
+          >
+            <MiscDetails />
+          </div>
+        </div>
+      )}
+
       <VerticalSpacing />
     </div>
   );
