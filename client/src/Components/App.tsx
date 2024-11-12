@@ -106,7 +106,10 @@ const App: React.FC = () => {
       {!weatherData && <Loading />}
       {weatherData && (
         <div>
-          <DayForecast />
+          <DayForecast
+            weatherData={weatherData}
+            setWeatherData={setWeatherData}
+          />
           <VerticalSpacing />
           <OneWeekForecast
             weatherData={weatherData}

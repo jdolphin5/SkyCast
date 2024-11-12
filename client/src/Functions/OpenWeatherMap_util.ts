@@ -2,6 +2,7 @@ import {
   OpenWeatherMap_Object,
   OpenWeatherMap_Three_Hour_Object,
   OpenWeatherMap_Weather_Day,
+  OpenWeatherMap_Weather_Summary,
 } from "../types";
 import { convertKelvinToCelsiusAndRound } from "./Util";
 
@@ -102,6 +103,48 @@ export const format_OpenWeatherMap_forecastIntoDays = (
   );
 
   res.push(pushWeatherDay);
+
+  return res;
+};
+
+export const format_OpenWeatherMap_forecastIntoSingleSummary = (
+  input: OpenWeatherMap_Object | null
+): OpenWeatherMap_Weather_Summary | null => {
+  if (!input) {
+    return null;
+  }
+
+  let firstDay = input?.weather[0].datetime_txt.split(" ")[0];
+
+  let minTemp: number = Number.MAX_VALUE;
+  let maxTemp: number = Number.MIN_VALUE;
+
+  for (let i = 0; i < input.weather.length; i++) {
+    const forecast: OpenWeatherMap_Three_Hour_Object = input.weather[i];
+
+    const forecastDay = forecast.datetime_txt.split(" ")[0];
+    if (forecastDay !== firstDay) break;
+
+    minTemp = Math.min(forecast.tempmin, minTemp);
+    maxTemp = Math.max(forecast.tempmax, maxTemp);
+  }
+
+  const low = convertKelvinToCelsiusAndRound(Number(minTemp));
+  const high = convertKelvinToCelsiusAndRound(Number(maxTemp));
+  const t = convertKelvinToCelsiusAndRound(Number(input.weather[0].temp));
+
+  const lon: string = String(input.city.lon.toFixed(3));
+  const lat: string = String(input.city.lat.toFixed(3));
+
+  const res: OpenWeatherMap_Weather_Summary = {
+    location: input.city.name + ", " + input.city.country,
+    lon: lon,
+    lat: lat,
+    weatherType: String(input.weather[0].weather[0].main),
+    temp: t,
+    lowTemp: low,
+    highTemp: high,
+  };
 
   return res;
 };

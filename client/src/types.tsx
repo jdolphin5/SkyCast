@@ -30,8 +30,9 @@ export type OpenWeatherMap_Three_Hour_Object = {
 export type OpenWeatherMap_City_Object = {
   id: number;
   name: string;
-  lat: number;
   lon: number;
+  lat: number;
+
   country: string;
   population: number;
   timezone: number;
@@ -47,8 +48,9 @@ export type OpenWeatherMap_Weather_Object = {
 };
 
 export type OpenWeatherMap_Coordinates_Object = {
-  lat: number;
   lon: number;
+  lat: number;
+
   city: string;
   state: string;
   country: string;
@@ -59,4 +61,14 @@ export type OpenWeatherMap_Weather_Day = {
   weather_summary: string;
   low: number;
   high: number;
+};
+
+export type OpenWeatherMap_Weather_Summary = {
+  location: string;
+  lon: string;
+  lat: string;
+  weatherType: string;
+  temp: number;
+  lowTemp: number;
+  highTemp: number;
 };

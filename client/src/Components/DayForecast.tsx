@@ -1,6 +1,19 @@
-import React from "react";
+import React, { Dispatch, SetStateAction } from "react";
+import {
+  OpenWeatherMap_Object,
+  OpenWeatherMap_Weather_Summary,
+} from "../types";
+import { format_OpenWeatherMap_forecastIntoSingleSummary } from "../Functions/OpenWeatherMap_util";
 
-const DayForecast: React.FC = () => {
+interface DayForecastProps {
+  weatherData: OpenWeatherMap_Object | null;
+  setWeatherData: Dispatch<SetStateAction<OpenWeatherMap_Object | null>>;
+}
+
+const DayForecast: React.FC<DayForecastProps> = (props: DayForecastProps) => {
+  const weatherDataFormattedIntoSummary: OpenWeatherMap_Weather_Summary | null =
+    format_OpenWeatherMap_forecastIntoSingleSummary(props.weatherData);
+
   return (
     <div
       style={{
@@ -40,7 +53,7 @@ const DayForecast: React.FC = () => {
               marginRight: "auto",
             }}
           >
-            Newcastle, Australia
+            {weatherDataFormattedIntoSummary?.location}
           </div>
           <div
             style={{
@@ -49,7 +62,8 @@ const DayForecast: React.FC = () => {
               marginRight: "auto",
             }}
           >
-            Lon: -32.919, Lat: 151.779
+            Lon: {weatherDataFormattedIntoSummary?.lon}, Lat:{" "}
+            {weatherDataFormattedIntoSummary?.lat}
           </div>
           <div
             style={{
@@ -58,7 +72,7 @@ const DayForecast: React.FC = () => {
               marginRight: "auto",
             }}
           >
-            23°
+            {weatherDataFormattedIntoSummary?.temp}°
           </div>
           <div
             style={{
@@ -68,7 +82,7 @@ const DayForecast: React.FC = () => {
               marginRight: "auto",
             }}
           >
-            Sunny
+            {weatherDataFormattedIntoSummary?.weatherType}
           </div>
           <div
             style={{
@@ -77,7 +91,8 @@ const DayForecast: React.FC = () => {
               marginRight: "auto",
             }}
           >
-            L:16° H:26°
+            L:{weatherDataFormattedIntoSummary?.lowTemp}° H:
+            {weatherDataFormattedIntoSummary?.highTemp}°
           </div>
         </div>
       </div>
@@ -86,3 +101,8 @@ const DayForecast: React.FC = () => {
 };
 
 export default DayForecast;
+function format_OpenWeatherMap_forecastIntoSummary(
+  weatherData: OpenWeatherMap_Object | null
+): any {
+  throw new Error("Function not implemented.");
+}
