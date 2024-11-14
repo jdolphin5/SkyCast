@@ -1,41 +1,68 @@
-import React from "react";
+import React, { Dispatch, SetStateAction } from "react";
+import {
+  OpenWeatherMap_Object,
+  OpenWeatherMap_Three_Hour_Object,
+} from "../types";
+import { format_OpenWeatherMap_forecastGetFirstForecast } from "../Functions/OpenWeatherMap_util";
 
-const MiscDetails: React.FC = () => {
+interface MiscDetailsProps {
+  weatherData: OpenWeatherMap_Object | null;
+  setWeatherData: Dispatch<SetStateAction<OpenWeatherMap_Object | null>>;
+}
+
+const MiscDetails: React.FC<MiscDetailsProps> = (props: MiscDetailsProps) => {
+  const forecast: OpenWeatherMap_Three_Hour_Object | null =
+    format_OpenWeatherMap_forecastGetFirstForecast(props.weatherData);
+  let timezone =
+    props.weatherData?.city.timezone != null //checks both undefined and null
+      ? String(props.weatherData.city.timezone / 36)
+      : "undefined";
+
   return (
     <div
       style={{
-        fontSize: "12px",
-        textAlign: "left",
-        paddingLeft: "15px",
-        paddingRight: "15px",
-        paddingTop: "15px",
-        paddingBottom: "15px",
-        backgroundColor: "#D9D9D9",
+        margin: "auto",
+        width: "339px",
+        border: "1px solid black",
       }}
     >
-      <div style={{ paddingTop: "2px", paddingBottom: "2px" }}>
-        Wind speed: 10m/s (average of 2mins)
-      </div>
-      <div style={{ paddingTop: "2px", paddingBottom: "2px" }}>
-        Wind direction: 100°
-      </div>
-      <div style={{ paddingTop: "2px", paddingBottom: "2px" }}>
-        Wind gust: 10m/s (under 20 secs)
-      </div>
-      <div style={{ paddingTop: "2px", paddingBottom: "2px" }}>
-        Rain: 10mm/h (last hour)
-      </div>
-      <div style={{ paddingTop: "2px", paddingBottom: "2px" }}>
-        Snow: 10mm/h (last hour)
-      </div>
-      <div style={{ paddingTop: "2px", paddingBottom: "2px" }}>
-        Timezone: +1100 UTC
-      </div>
-      <div style={{ paddingTop: "2px", paddingBottom: "2px" }}>
-        Atmospheric Pressure: 10 hPa
-      </div>
-      <div style={{ paddingTop: "2px", paddingBottom: "2px" }}>
-        Humidity: 70%
+      <div
+        style={{
+          fontSize: "12px",
+          textAlign: "left",
+          paddingLeft: "15px",
+          paddingRight: "15px",
+          paddingTop: "15px",
+          paddingBottom: "15px",
+          backgroundColor: "#D9D9D9",
+          position: "relative",
+        }}
+      >
+        {forecast && (
+          <div>
+            <div style={{ paddingTop: "2px", paddingBottom: "2px" }}>
+              Wind speed: {forecast.wind_speed}m/s (average of 2 mins)
+            </div>
+            <div style={{ paddingTop: "2px", paddingBottom: "2px" }}>
+              Wind direction: {forecast.wind_deg}°
+            </div>
+            <div style={{ paddingTop: "2px", paddingBottom: "2px" }}>
+              Wind gust: {forecast.wind_gust}m/s
+            </div>
+            <div style={{ paddingTop: "2px", paddingBottom: "2px" }}>
+              Rain: {forecast.rain_chance_3h}mm/h (last 3 hours)
+            </div>
+            <div style={{ paddingTop: "2px", paddingBottom: "2px" }}>
+              Timezone: +{timezone} UTC
+            </div>
+            <div style={{ paddingTop: "2px", paddingBottom: "2px" }}>
+              Atmospheric Pressure: {forecast.pressure} hPa
+            </div>
+            <div style={{ paddingTop: "2px", paddingBottom: "2px" }}>
+              Humidity: {forecast.humidity}%
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

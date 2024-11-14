@@ -148,3 +148,13 @@ export const format_OpenWeatherMap_forecastIntoSingleSummary = (
 
   return res;
 };
+
+export const format_OpenWeatherMap_forecastGetFirstForecast = (
+  input: OpenWeatherMap_Object | null
+): OpenWeatherMap_Three_Hour_Object | null => {
+  if (!input?.weather) {
+    return null;
+  }
+
+  return input.weather[0];
+};

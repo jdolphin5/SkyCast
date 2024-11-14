@@ -116,16 +116,11 @@ const App: React.FC = () => {
             setWeatherData={setWeatherData}
           />
           <VerticalSpacing />
-          <div
-            style={{
-              margin: "auto",
-              width: "339px",
-              height: "180px",
-              border: "1px solid black",
-            }}
-          >
-            <MiscDetails />
-          </div>
+
+          <MiscDetails
+            weatherData={weatherData}
+            setWeatherData={setWeatherData}
+          />
         </div>
       )}
 
