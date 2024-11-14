@@ -24,6 +24,7 @@ const App: React.FC = () => {
   );
   const [lastAPICall, setLastAPICall] = useState<string | null>(null);
   const paramsWeatherDataAPICallRef = useRef({ lat: 1, lon: 1 });
+  const [source, setSource] = useState<string>("OpenWeatherMap");
 
   useEffect(() => {
     getCoordinatesData().then(
@@ -90,6 +91,8 @@ const App: React.FC = () => {
         setNavigationSelected={setNavigationSelected}
         shouldShowMenu={shouldShowMenu}
         setShouldShowMenu={setShouldShowMenu}
+        source={source}
+        setSource={setSource}
       />
       <Menu
         navigationSelected={navigationSelected}

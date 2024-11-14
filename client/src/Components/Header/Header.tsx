@@ -6,6 +6,8 @@ interface HeaderProps {
   setNavigationSelected: Dispatch<SetStateAction<string>>;
   shouldShowMenu: boolean;
   setShouldShowMenu: Dispatch<SetStateAction<boolean>>;
+  source: string;
+  setSource: Dispatch<SetStateAction<string>>;
 }
 
 const Header: React.FC<HeaderProps> = (props: HeaderProps) => {
@@ -103,7 +105,7 @@ const Header: React.FC<HeaderProps> = (props: HeaderProps) => {
           }}
         >
           <div style={{ textAlign: "center", fontSize: "14px" }}>
-            <CustomSelect />
+            <CustomSelect source={props.source} setSource={props.setSource} />
           </div>
         </div>
         {/* Menu area below MENU button to display when showHideMainMenu is set */}

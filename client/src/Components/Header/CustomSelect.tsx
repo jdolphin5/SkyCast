@@ -3,26 +3,31 @@ import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 
-const CustomSelect: React.FC = () => {
-  const [age, setAge] = React.useState("");
+interface CustomSelectProps {
+  source: string;
+  setSource: React.Dispatch<React.SetStateAction<string>>;
+}
 
+const CustomSelect: React.FC<CustomSelectProps> = (
+  props: CustomSelectProps
+) => {
   const handleChange = (event: SelectChangeEvent) => {
-    setAge(event.target.value);
+    props.setSource(event.target.value);
   };
 
   return (
     <div style={{ padding: "10px 0 10px 0", backgroundColor: "#ABABAB" }}>
       <FormControl sx={{ m: 0, minWidth: 150 }}>
         <Select
-          id="demo-simple-select-helper"
+          id="simple-select"
           displayEmpty
-          value={age}
+          value={props.source}
           onChange={handleChange}
           sx={{ height: "30px", backgroundColor: "#D9D9D9" }}
         >
-          {age === "" && <MenuItem value="">Select Source</MenuItem>}
-          <MenuItem value={10}>OpenWeatherMap</MenuItem>
-          <MenuItem value={20}>VisualCrossing</MenuItem>
+          {props.source === "" && <MenuItem value="">Select Source</MenuItem>}
+          <MenuItem value={"OpenWeatherMap"}>OpenWeatherMap</MenuItem>
+          <MenuItem value={"VisualCrossing"}>VisualCrossing</MenuItem>
         </Select>
       </FormControl>
     </div>
