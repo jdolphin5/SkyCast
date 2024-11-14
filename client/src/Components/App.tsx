@@ -13,6 +13,7 @@ import {
 import Menu from "./Nav/Menu";
 import { getCoordinatesData, getWeatherData } from "../Functions/API";
 import Loading from "./Loading";
+import SearchLocation from "./SearchLocation";
 
 const App: React.FC = () => {
   const [navigationSelected, setNavigationSelected] = useState<string>("none");
@@ -109,6 +110,8 @@ const App: React.FC = () => {
       {!weatherData && <Loading />}
       {weatherData && (
         <div>
+          <SearchLocation />
+          <VerticalSpacing />
           <DayForecast
             weatherData={weatherData}
             setWeatherData={setWeatherData}
