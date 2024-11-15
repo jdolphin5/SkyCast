@@ -10,6 +10,8 @@ interface NavLayoutProps {
   setNavigationSelected: Dispatch<SetStateAction<string>>;
   shouldShowMenu: boolean;
   setShouldShowMenu: Dispatch<SetStateAction<boolean>>;
+  unitsType: string;
+  setUnitsType: Dispatch<SetStateAction<string>>;
 }
 
 const NavLayout: React.FC<NavLayoutProps> = (props: NavLayoutProps) => {
@@ -27,6 +29,8 @@ const NavLayout: React.FC<NavLayoutProps> = (props: NavLayoutProps) => {
             <SettingsMenu
               navigationSelected={props.navigationSelected}
               setNavigationSelected={props.setNavigationSelected}
+              unitsType={props.unitsType}
+              setUnitsType={props.setUnitsType}
             />
           </div>
           <VerticalSpacing />

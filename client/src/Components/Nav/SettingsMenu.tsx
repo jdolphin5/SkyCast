@@ -1,13 +1,26 @@
+import {
+  FormControl,
+  FormControlLabel,
+  FormLabel,
+  Radio,
+  RadioGroup,
+} from "@mui/material";
 import React, { Dispatch, SetStateAction } from "react";
 
 interface SettingsMenuProps {
   navigationSelected: string;
   setNavigationSelected: Dispatch<SetStateAction<string>>;
+  unitsType: string;
+  setUnitsType: Dispatch<SetStateAction<string>>;
 }
 
 const SettingsMenu: React.FC<SettingsMenuProps> = (
   props: SettingsMenuProps
 ) => {
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    props.setUnitsType((event.target as HTMLInputElement).value);
+  };
+
   return (
     <div className="sub-menu-container">
       <div className="grid-sub-menu-title">
@@ -37,11 +50,39 @@ const SettingsMenu: React.FC<SettingsMenuProps> = (
       </div>
 
       <div className="sub-menu-list">
-        <h2>UNITS</h2>
-        <ul>
-          <li>Metric</li>
-          <li>Imperial</li>
-        </ul>
+        <FormControl>
+          <FormLabel
+            id="controlled-radio-buttons-group"
+            sx={{
+              textAlign: "center",
+              backgroundColor: "#444444",
+              color: "#EEEEEE",
+            }}
+          >
+            UNITS
+          </FormLabel>
+          <RadioGroup
+            aria-labelledby="controlled-radio-buttons-group"
+            name="controlled-radio-buttons-group"
+            value={props.unitsType}
+            onChange={handleChange}
+            sx={{
+              padding: "2px 20px 2px 20px",
+              margin: "0",
+            }}
+          >
+            <FormControlLabel
+              value="metric"
+              control={<Radio />}
+              label="Metric"
+            />
+            <FormControlLabel
+              value="imperial"
+              control={<Radio />}
+              label="Imperial"
+            />
+          </RadioGroup>
+        </FormControl>
       </div>
     </div>
   );

@@ -29,6 +29,7 @@ const App: React.FC = () => {
     useState<Coordinates_Parameters_Object | null>(null);
   const paramsWeatherDataAPICallRef = useRef({ lat: 1, lon: 1 });
   const [source, setSource] = useState<string>("OpenWeatherMap");
+  const [unitsType, setUnitsType] = React.useState("metric");
 
   const DEFAULT_CITY: string = "Newcastle";
   const DEFAULT_STATE: string = "NSW";
@@ -67,6 +68,10 @@ const App: React.FC = () => {
   useEffect(() => {
     console.log(weatherData);
   }, [weatherData]);
+
+  useEffect(() => {
+    console.log(unitsType);
+  }, [unitsType]);
 
   useEffect(() => {
     schedule.gracefulShutdown();
@@ -127,6 +132,8 @@ const App: React.FC = () => {
         setNavigationSelected={setNavigationSelected}
         shouldShowMenu={shouldShowMenu}
         setShouldShowMenu={setShouldShowMenu}
+        unitsType={unitsType}
+        setUnitsType={setUnitsType}
       />
       {!weatherData && <Loading />}
       {weatherData && (
