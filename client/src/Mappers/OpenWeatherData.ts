@@ -58,7 +58,7 @@ export const mapWeatherDataResponse = (
       wind_gust: d.wind.gust,
       visibility: d.visibility,
       pop: d.pop,
-      rain_chance_3h: d.rain ? d.rain["3h"] : undefined,
+      rain_chance_3h: d.rain ? d.rain["3h"] : "0",
       sys_pod: d.sys.pod,
       datetime_txt: d.dt_txt,
     };
