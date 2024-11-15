@@ -8,19 +8,27 @@ import {
   OpenWeatherMap_Object,
 } from "../types";
 
-export const getCoordinatesData =
-  async (): Promise<OpenWeatherMap_Coordinates_Object | null> => {
-    try {
-      const response: AxiosResponse = await axios.get(
-        process.env.REACT_APP_SERVER_URI +
-          "/openWeatherMap/GetCoordinates/Newcastle/NSW/AU"
-      );
-      return mapCoordinatesResponse(response);
-    } catch (error) {
-      console.error("Error fetching coordinates data:", error);
-      return null;
-    }
-  };
+export const getCoordinatesData = async (
+  city: string,
+  state: string,
+  countryCode: string
+): Promise<OpenWeatherMap_Coordinates_Object | null> => {
+  try {
+    const response: AxiosResponse = await axios.get(
+      process.env.REACT_APP_SERVER_URI +
+        "/openWeatherMap/GetCoordinates/" +
+        city +
+        "/" +
+        state +
+        "/" +
+        countryCode
+    );
+    return mapCoordinatesResponse(response);
+  } catch (error) {
+    console.error("Error fetching coordinates data:", error);
+    return null;
+  }
+};
 
 export const getWeatherData = async (
   lat: number,

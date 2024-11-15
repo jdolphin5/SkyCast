@@ -72,3 +72,9 @@ export type OpenWeatherMap_Weather_Summary = {
   lowTemp: number;
   highTemp: number;
 };
+
+export type Coordinates_Parameters_Object = {
+  city: string;
+  state: string;
+  countryCode: string;
+};

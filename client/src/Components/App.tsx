@@ -7,6 +7,7 @@ import MiscDetails from "./MiscDetails";
 import NavLayout from "./Nav/NavLayout";
 import * as schedule from "node-schedule";
 import {
+  Coordinates_Parameters_Object,
   OpenWeatherMap_Coordinates_Object,
   OpenWeatherMap_Object,
 } from "../types";
@@ -24,15 +25,26 @@ const App: React.FC = () => {
     null
   );
   const [lastAPICall, setLastAPICall] = useState<string | null>(null);
+  const [lastCoordinatesAPICallParams, setLastCoordinatesAPICallParams] =
+    useState<Coordinates_Parameters_Object | null>(null);
   const paramsWeatherDataAPICallRef = useRef({ lat: 1, lon: 1 });
   const [source, setSource] = useState<string>("OpenWeatherMap");
 
+  const DEFAULT_CITY: string = "Newcastle";
+  const DEFAULT_STATE: string = "NSW";
+  const DEFAULT_COUNTRY: string = "AU";
+
   useEffect(() => {
-    getCoordinatesData().then(
+    getCoordinatesData(DEFAULT_CITY, DEFAULT_STATE, DEFAULT_COUNTRY).then(
       (data: OpenWeatherMap_Coordinates_Object | null) =>
         setCoordinatesData(data)
     );
     setLastAPICall("get_coordinates");
+    setLastCoordinatesAPICallParams({
+      city: DEFAULT_CITY,
+      state: DEFAULT_STATE,
+      countryCode: DEFAULT_COUNTRY,
+    });
   }, []);
 
   useEffect(() => {
@@ -61,7 +73,16 @@ const App: React.FC = () => {
 
     if (lastAPICall === "get_coordinates") {
       const job = schedule.scheduleJob("20 * * * * *", () => {
-        getCoordinatesData().then(
+        const city = lastCoordinatesAPICallParams?.city
+          ? lastCoordinatesAPICallParams.city
+          : DEFAULT_CITY;
+        const state = lastCoordinatesAPICallParams?.state
+          ? lastCoordinatesAPICallParams.state
+          : DEFAULT_STATE;
+        const countryCode = lastCoordinatesAPICallParams?.countryCode
+          ? lastCoordinatesAPICallParams.countryCode
+          : DEFAULT_COUNTRY;
+        getCoordinatesData(city, state, countryCode).then(
           (data: OpenWeatherMap_Coordinates_Object | null) =>
             setCoordinatesData(data)
         );
@@ -110,7 +131,14 @@ const App: React.FC = () => {
       {!weatherData && <Loading />}
       {weatherData && (
         <div>
-          <SearchLocation />
+          <SearchLocation
+            coordinatesData={coordinatesData}
+            setCoordinatesData={setCoordinatesData}
+            lastAPICall={lastAPICall}
+            setLastAPICall={setLastAPICall}
+            lastCoordinatesAPICallParams={lastCoordinatesAPICallParams}
+            setLastCoordinatesAPICallParams={setLastCoordinatesAPICallParams}
+          />
           <VerticalSpacing />
           <DayForecast
             weatherData={weatherData}
