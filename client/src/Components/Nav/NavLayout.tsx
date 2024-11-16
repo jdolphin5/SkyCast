@@ -12,6 +12,10 @@ interface NavLayoutProps {
   setShouldShowMenu: Dispatch<SetStateAction<boolean>>;
   unitsType: string;
   setUnitsType: Dispatch<SetStateAction<string>>;
+  themeType: string;
+  setThemeType: Dispatch<SetStateAction<string>>;
+  enablePushNotifications: boolean;
+  setEnablePushNotifications: Dispatch<SetStateAction<boolean>>;
 }
 
 const NavLayout: React.FC<NavLayoutProps> = (props: NavLayoutProps) => {
@@ -48,6 +52,8 @@ const NavLayout: React.FC<NavLayoutProps> = (props: NavLayoutProps) => {
             <ThemesMenu
               navigationSelected={props.navigationSelected}
               setNavigationSelected={props.setNavigationSelected}
+              themeType={props.themeType}
+              setThemeType={props.setThemeType}
             />
           </div>
           <VerticalSpacing />
@@ -66,6 +72,8 @@ const NavLayout: React.FC<NavLayoutProps> = (props: NavLayoutProps) => {
               <PushNotificationsMenu
                 navigationSelected={props.navigationSelected}
                 setNavigationSelected={props.setNavigationSelected}
+                enablePushNotifications={props.enablePushNotifications}
+                setEnablePushNotifications={props.setEnablePushNotifications}
               />
             </div>
             <VerticalSpacing />

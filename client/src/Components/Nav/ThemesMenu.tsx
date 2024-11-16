@@ -1,11 +1,24 @@
+import {
+  FormControl,
+  FormControlLabel,
+  FormLabel,
+  Radio,
+  RadioGroup,
+} from "@mui/material";
 import React, { Dispatch, SetStateAction } from "react";
 
 interface ThemesMenuProps {
   navigationSelected: string;
   setNavigationSelected: Dispatch<SetStateAction<string>>;
+  themeType: string;
+  setThemeType: Dispatch<SetStateAction<string>>;
 }
 
 const ThemesMenu: React.FC<ThemesMenuProps> = (props: ThemesMenuProps) => {
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    props.setThemeType((event.target as HTMLInputElement).value);
+  };
+
   return (
     <div className="sub-menu-container">
       <div className="grid-sub-menu-title">
@@ -35,10 +48,31 @@ const ThemesMenu: React.FC<ThemesMenuProps> = (props: ThemesMenuProps) => {
       </div>
 
       <div className="sub-menu-list">
-        <ul>
-          <li>Light</li>
-          <li>Dark</li>
-        </ul>
+        <FormControl>
+          <FormLabel
+            id="controlled-radio-buttons-group"
+            sx={{
+              textAlign: "center",
+              backgroundColor: "#444444",
+              color: "#EEEEEE",
+            }}
+          >
+            UNITS
+          </FormLabel>
+          <RadioGroup
+            aria-labelledby="controlled-radio-buttons-group"
+            name="controlled-radio-buttons-group"
+            value={props.themeType}
+            onChange={handleChange}
+            sx={{
+              padding: "2px 20px 2px 20px",
+              margin: "0",
+            }}
+          >
+            <FormControlLabel value="light" control={<Radio />} label="Light" />
+            <FormControlLabel value="dark" control={<Radio />} label="Dark" />
+          </RadioGroup>
+        </FormControl>
       </div>
     </div>
   );

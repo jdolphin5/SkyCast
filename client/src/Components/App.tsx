@@ -29,7 +29,10 @@ const App: React.FC = () => {
     useState<Coordinates_Parameters_Object | null>(null);
   const paramsWeatherDataAPICallRef = useRef({ lat: 1, lon: 1 });
   const [source, setSource] = useState<string>("OpenWeatherMap");
-  const [unitsType, setUnitsType] = React.useState("metric");
+  const [unitsType, setUnitsType] = useState<string>("metric");
+  const [themeType, setThemeType] = useState<string>("light");
+  const [enablePushNotifications, setEnablePushNotifications] =
+    useState<boolean>(false);
 
   const DEFAULT_CITY: string = "Newcastle";
   const DEFAULT_STATE: string = "NSW";
@@ -72,6 +75,14 @@ const App: React.FC = () => {
   useEffect(() => {
     console.log(unitsType);
   }, [unitsType]);
+
+  useEffect(() => {
+    console.log(themeType);
+  }, [themeType]);
+
+  useEffect(() => {
+    console.log(enablePushNotifications);
+  }, [enablePushNotifications]);
 
   useEffect(() => {
     schedule.gracefulShutdown();
@@ -134,6 +145,10 @@ const App: React.FC = () => {
         setShouldShowMenu={setShouldShowMenu}
         unitsType={unitsType}
         setUnitsType={setUnitsType}
+        themeType={themeType}
+        setThemeType={setThemeType}
+        enablePushNotifications={enablePushNotifications}
+        setEnablePushNotifications={setEnablePushNotifications}
       />
       {!weatherData && <Loading />}
       {weatherData && (

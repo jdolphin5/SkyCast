@@ -1,13 +1,27 @@
+import {
+  FormControl,
+  FormControlLabel,
+  FormLabel,
+  Radio,
+  RadioGroup,
+} from "@mui/material";
 import React, { Dispatch, SetStateAction } from "react";
 
 interface PushNotificationsMenuProps {
   navigationSelected: string;
   setNavigationSelected: Dispatch<SetStateAction<string>>;
+  enablePushNotifications: boolean;
+  setEnablePushNotifications: Dispatch<SetStateAction<boolean>>;
 }
 
 const PushNotificationsMenu: React.FC<PushNotificationsMenuProps> = (
   props: PushNotificationsMenuProps
 ) => {
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    props.setEnablePushNotifications(
+      (event.target as HTMLInputElement).value === "true" ? true : false
+    );
+  };
   return (
     <div className="sub-menu-container">
       <div className="grid-sub-menu-title">
@@ -37,10 +51,39 @@ const PushNotificationsMenu: React.FC<PushNotificationsMenuProps> = (
       </div>
 
       <div className="sub-menu-list">
-        <ul>
-          <li>Enable</li>
-          <li>Disable</li>
-        </ul>
+        <FormControl>
+          <FormLabel
+            id="controlled-radio-buttons-group"
+            sx={{
+              textAlign: "center",
+              backgroundColor: "#444444",
+              color: "#EEEEEE",
+            }}
+          >
+            UNITS
+          </FormLabel>
+          <RadioGroup
+            aria-labelledby="controlled-radio-buttons-group"
+            name="controlled-radio-buttons-group"
+            value={props.enablePushNotifications}
+            onChange={handleChange}
+            sx={{
+              padding: "2px 20px 2px 20px",
+              margin: "0",
+            }}
+          >
+            <FormControlLabel
+              value="true"
+              control={<Radio />}
+              label="Enabled"
+            />
+            <FormControlLabel
+              value="false"
+              control={<Radio />}
+              label="Disabled"
+            />
+          </RadioGroup>
+        </FormControl>
       </div>
     </div>
   );
