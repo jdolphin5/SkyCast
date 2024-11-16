@@ -1,4 +1,5 @@
 import {
+  Box,
   FormControl,
   FormControlLabel,
   FormLabel,
@@ -72,16 +73,18 @@ const PushNotificationsMenu: React.FC<PushNotificationsMenuProps> = (
               margin: "0",
             }}
           >
-            <FormControlLabel
-              value="true"
-              control={<Radio />}
-              label="Enabled"
-            />
-            <FormControlLabel
-              value="false"
-              control={<Radio />}
-              label="Disabled"
-            />
+            <Box sx={{ display: "flex", flexDirection: "column", gap: "0px" }}>
+              <FormControlLabel
+                value="true"
+                control={<Radio sx={{ padding: "0 5px" }} />}
+                label="Enabled"
+              />
+              <FormControlLabel
+                value="false"
+                control={<Radio sx={{ padding: "0 5px" }} />}
+                label="Disabled"
+              />
+            </Box>
           </RadioGroup>
         </FormControl>
       </div>

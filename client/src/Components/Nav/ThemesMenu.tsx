@@ -1,4 +1,5 @@
 import {
+  Box,
   FormControl,
   FormControlLabel,
   FormLabel,
@@ -69,8 +70,18 @@ const ThemesMenu: React.FC<ThemesMenuProps> = (props: ThemesMenuProps) => {
               margin: "0",
             }}
           >
-            <FormControlLabel value="light" control={<Radio />} label="Light" />
-            <FormControlLabel value="dark" control={<Radio />} label="Dark" />
+            <Box sx={{ display: "flex", flexDirection: "column", gap: "0px" }}>
+              <FormControlLabel
+                value="light"
+                control={<Radio sx={{ padding: "0 5px" }} />}
+                label="Light"
+              />
+              <FormControlLabel
+                value="dark"
+                control={<Radio sx={{ padding: "0 5px" }} />}
+                label="Dark"
+              />
+            </Box>
           </RadioGroup>
         </FormControl>
       </div>

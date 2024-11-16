@@ -1,4 +1,5 @@
 import {
+  Box,
   FormControl,
   FormControlLabel,
   FormLabel,
@@ -61,6 +62,7 @@ const SettingsMenu: React.FC<SettingsMenuProps> = (
           >
             UNITS
           </FormLabel>
+
           <RadioGroup
             aria-labelledby="controlled-radio-buttons-group"
             name="controlled-radio-buttons-group"
@@ -71,16 +73,20 @@ const SettingsMenu: React.FC<SettingsMenuProps> = (
               margin: "0",
             }}
           >
-            <FormControlLabel
-              value="metric"
-              control={<Radio />}
-              label="Metric"
-            />
-            <FormControlLabel
-              value="imperial"
-              control={<Radio />}
-              label="Imperial"
-            />
+            <Box sx={{ display: "flex", flexDirection: "column", gap: "0px" }}>
+              <FormControlLabel
+                value="metric"
+                control={<Radio sx={{ padding: "0 5px" }} />}
+                label="Metric"
+                //sx={{ margin: "0px" }}
+              />
+              <FormControlLabel
+                value="imperial"
+                control={<Radio sx={{ padding: "0 5px" }} />}
+                label="Imperial"
+                //sx={{ margin: "0px" }}
+              />
+            </Box>
           </RadioGroup>
         </FormControl>
       </div>
