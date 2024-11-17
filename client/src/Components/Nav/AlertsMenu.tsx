@@ -1,5 +1,6 @@
 import {
   Box,
+  Button,
   FormControl,
   FormControlLabel,
   FormLabel,
@@ -8,16 +9,14 @@ import {
 } from "@mui/material";
 import React, { Dispatch, SetStateAction } from "react";
 
-interface PushNotificationsMenuProps {
+interface AlertsMenuProps {
   navigationSelected: string;
   setNavigationSelected: Dispatch<SetStateAction<string>>;
   enablePushNotifications: boolean;
   setEnablePushNotifications: Dispatch<SetStateAction<boolean>>;
 }
 
-const PushNotificationsMenu: React.FC<PushNotificationsMenuProps> = (
-  props: PushNotificationsMenuProps
-) => {
+const AlertsMenu: React.FC<AlertsMenuProps> = (props: AlertsMenuProps) => {
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     props.setEnablePushNotifications(
       (event.target as HTMLInputElement).value === "true" ? true : false
@@ -28,7 +27,7 @@ const PushNotificationsMenu: React.FC<PushNotificationsMenuProps> = (
       <div className="grid-sub-menu-title">
         {/*Left column with Nav Title */}
         <div className="grid-sub-menu-title-left">
-          <h1>PUSH NOTIFICATIONS</h1>
+          <h1>ALERTS</h1>
         </div>
         {/*Right column with X to close*/}
         <div
@@ -53,16 +52,6 @@ const PushNotificationsMenu: React.FC<PushNotificationsMenuProps> = (
 
       <div className="sub-menu-list">
         <FormControl>
-          <FormLabel
-            id="controlled-radio-buttons-group"
-            sx={{
-              textAlign: "center",
-              backgroundColor: "#444444",
-              color: "#EEEEEE",
-            }}
-          >
-            UNITS
-          </FormLabel>
           <RadioGroup
             aria-labelledby="controlled-radio-buttons-group"
             name="controlled-radio-buttons-group"
@@ -77,19 +66,24 @@ const PushNotificationsMenu: React.FC<PushNotificationsMenuProps> = (
               <FormControlLabel
                 value="true"
                 control={<Radio sx={{ padding: "0 5px" }} />}
-                label="Enabled"
+                label="Enable Push Notifications"
               />
               <FormControlLabel
                 value="false"
                 control={<Radio sx={{ padding: "0 5px" }} />}
-                label="Disabled"
+                label="Disable Push Notifications"
               />
             </Box>
           </RadioGroup>
         </FormControl>
+        <div>
+          <Button sx={{ backgroundColor: "black", margin: "6px 0px 6px 0px" }}>
+            Configure Alerts
+          </Button>
+        </div>
       </div>
     </div>
   );
 };
 
-export default PushNotificationsMenu;
+export default AlertsMenu;

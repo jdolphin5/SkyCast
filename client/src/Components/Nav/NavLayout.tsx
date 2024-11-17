@@ -1,7 +1,7 @@
 import React, { Dispatch, SetStateAction } from "react";
 import SettingsMenu from "./SettingsMenu";
 import ThemesMenu from "./ThemesMenu";
-import PushNotificationsMenu from "./PushNotificationsMenu";
+import AlertsMenu from "./AlertsMenu";
 import LoginMenu from "./LoginMenu";
 import VerticalSpacing from "../VerticalSpacing";
 
@@ -59,26 +59,25 @@ const NavLayout: React.FC<NavLayoutProps> = (props: NavLayoutProps) => {
           <VerticalSpacing />
         </div>
       )}
-      {props.navigationSelected === "pushnotifications" &&
-        props.shouldShowMenu && (
-          <div>
-            <div
-              style={{
-                margin: "auto",
-                width: "339px",
-                border: "1px solid black",
-              }}
-            >
-              <PushNotificationsMenu
-                navigationSelected={props.navigationSelected}
-                setNavigationSelected={props.setNavigationSelected}
-                enablePushNotifications={props.enablePushNotifications}
-                setEnablePushNotifications={props.setEnablePushNotifications}
-              />
-            </div>
-            <VerticalSpacing />
+      {props.navigationSelected === "alerts" && props.shouldShowMenu && (
+        <div>
+          <div
+            style={{
+              margin: "auto",
+              width: "339px",
+              border: "1px solid black",
+            }}
+          >
+            <AlertsMenu
+              navigationSelected={props.navigationSelected}
+              setNavigationSelected={props.setNavigationSelected}
+              enablePushNotifications={props.enablePushNotifications}
+              setEnablePushNotifications={props.setEnablePushNotifications}
+            />
           </div>
-        )}
+          <VerticalSpacing />
+        </div>
+      )}
       {props.navigationSelected === "login" && props.shouldShowMenu && (
         <div>
           <div
