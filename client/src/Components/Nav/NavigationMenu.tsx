@@ -41,9 +41,9 @@ const NavigationMenu: React.FC<NavigationMenuProps> = (
         {/* Push notifications will have an interface to enable/disable and define based on metrics */}
         <li
           style={{ cursor: "pointer" }}
-          onClick={() => props.setNavigationSelected("pushnotifications")}
+          onClick={() => props.setNavigationSelected("alerts")}
         >
-          Push Notifications
+          Alerts
         </li>
         <li
           style={{ cursor: "pointer" }}
