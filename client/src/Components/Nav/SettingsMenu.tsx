@@ -51,7 +51,7 @@ const SettingsMenu: React.FC<SettingsMenuProps> = (
       </div>
 
       <div className="sub-menu-list">
-        <FormControl>
+        <FormControl sx={{ width: "100%" }}>
           <FormLabel
             id="controlled-radio-buttons-group"
             sx={{

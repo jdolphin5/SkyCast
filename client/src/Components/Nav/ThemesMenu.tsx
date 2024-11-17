@@ -49,16 +49,17 @@ const ThemesMenu: React.FC<ThemesMenuProps> = (props: ThemesMenuProps) => {
       </div>
 
       <div className="sub-menu-list">
-        <FormControl>
+        <FormControl sx={{ width: "100%" }}>
           <FormLabel
             id="controlled-radio-buttons-group"
             sx={{
               textAlign: "center",
               backgroundColor: "#444444",
               color: "#EEEEEE",
+              //width: "100%",
             }}
           >
-            UNITS
+            MODE
           </FormLabel>
           <RadioGroup
             aria-labelledby="controlled-radio-buttons-group"
