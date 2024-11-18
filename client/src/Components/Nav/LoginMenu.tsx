@@ -47,7 +47,7 @@ const LoginMenu: React.FC<LoginMenuProps> = (props: LoginMenuProps) => {
       </div>
 
       <div className="sub-menu-list">
-        <Box sx={{ display: "flex", flexDirection: "column", gap: "5px" }}>
+        <Box sx={{ display: "flex", flexDirection: "column", gap: "8px" }}>
           <TextField
             id="standard-basic-username"
             label="Username"
