@@ -7,7 +7,8 @@ import {
   Radio,
   RadioGroup,
 } from "@mui/material";
-import React, { Dispatch, SetStateAction } from "react";
+import React, { Dispatch, SetStateAction, useState } from "react";
+import ConfigureAlerts from "./ConfigureAlerts";
 
 interface AlertsMenuProps {
   navigationSelected: string;
@@ -17,6 +18,9 @@ interface AlertsMenuProps {
 }
 
 const AlertsMenu: React.FC<AlertsMenuProps> = (props: AlertsMenuProps) => {
+  const [shouldShowConfigure, setShouldShowConfigure] =
+    useState<boolean>(false);
+
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     props.setEnablePushNotifications(
       (event.target as HTMLInputElement).value === "true" ? true : false
@@ -77,10 +81,19 @@ const AlertsMenu: React.FC<AlertsMenuProps> = (props: AlertsMenuProps) => {
           </RadioGroup>
         </FormControl>
         <div>
-          <Button sx={{ backgroundColor: "black", margin: "6px 0px 6px 0px" }}>
+          <Button
+            onClick={() => setShouldShowConfigure(true)}
+            sx={{ backgroundColor: "black", margin: "6px 0px 6px 0px" }}
+          >
             Configure Alerts
           </Button>
         </div>
+        {shouldShowConfigure && (
+          <ConfigureAlerts
+            shouldShowConfigure={shouldShowConfigure}
+            setShouldShowConfigure={setShouldShowConfigure}
+          />
+        )}
       </div>
     </div>
   );
