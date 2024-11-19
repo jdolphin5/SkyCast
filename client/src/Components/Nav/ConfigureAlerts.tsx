@@ -2,7 +2,10 @@ import {
   Box,
   Button,
   FormControl,
+  FormControlLabel,
   MenuItem,
+  Radio,
+  RadioGroup,
   Select,
   SelectChangeEvent,
   TextField,
@@ -28,6 +31,8 @@ const ConfigureAlerts: React.FC<ConfigureAlertsProps> = (
 
   const [alertType, setAlertType] = useState<AlertType>("");
   const [unitsType, setUnitsType] = useState<string>("");
+  const [comparisonOperator, setComparisonOperator] =
+    useState<string>("Less than");
 
   //used to avoid warning due to unitsType being set to a value without a rendered MenuItem
   const [isResettingUnitsType, setIsResettingUnitsType] =
@@ -52,7 +57,11 @@ const ConfigureAlerts: React.FC<ConfigureAlertsProps> = (
     console.log(unitsType);
   }, [unitsType]);
 
-  const handleChange = (type: string) => (event: SelectChangeEvent) => {
+  useEffect(() => {
+    console.log(comparisonOperator);
+  }, [comparisonOperator]);
+
+  const handleSelectChange = (type: string) => (event: SelectChangeEvent) => {
     if (type === "alertType") {
       //assert that this value must be of type AlertType
       setAlertType(event.target.value as AlertType);
@@ -60,6 +69,10 @@ const ConfigureAlerts: React.FC<ConfigureAlertsProps> = (
     } else if (type === "unitsType") {
       setUnitsType(event.target.value);
     }
+  };
+
+  const handleRadioChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setComparisonOperator((event.target as HTMLInputElement).value);
   };
 
   return (
@@ -97,7 +110,7 @@ const ConfigureAlerts: React.FC<ConfigureAlertsProps> = (
               id="simple-select"
               displayEmpty
               value={alertType}
-              onChange={handleChange("alertType")}
+              onChange={handleSelectChange("alertType")}
               sx={{
                 height: "30px",
                 width: "200px",
@@ -112,6 +125,33 @@ const ConfigureAlerts: React.FC<ConfigureAlertsProps> = (
               <MenuItem value={"Pressure"}>Pressure</MenuItem>
               <MenuItem value={"Humidity"}>Humidity</MenuItem>
             </Select>
+          </FormControl>
+          <FormControl>
+            <RadioGroup
+              aria-labelledby="controlled-radio-buttons-group"
+              name="controlled-radio-buttons-group"
+              value={comparisonOperator}
+              onChange={handleRadioChange}
+              sx={{
+                padding: "2px 20px 2px 20px",
+                margin: "0",
+              }}
+            >
+              <Box
+                sx={{ display: "flex", flexDirection: "column", gap: "0px" }}
+              >
+                <FormControlLabel
+                  value={"Less than"}
+                  control={<Radio sx={{ padding: "0 5px" }} />}
+                  label="Less than"
+                />
+                <FormControlLabel
+                  value={"More than"}
+                  control={<Radio sx={{ padding: "0 5px" }} />}
+                  label="More than"
+                />
+              </Box>
+            </RadioGroup>
           </FormControl>
           <FormControl sx={{}}>
             <div style={{ display: "flex", gap: "8px" }}>
@@ -190,7 +230,7 @@ const ConfigureAlerts: React.FC<ConfigureAlertsProps> = (
                 id="simple-select"
                 displayEmpty
                 value={unitsType}
-                onChange={handleChange("unitsType")}
+                onChange={handleSelectChange("unitsType")}
                 sx={{
                   height: "30px",
                   width: "200px",
