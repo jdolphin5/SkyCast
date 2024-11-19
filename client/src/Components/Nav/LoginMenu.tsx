@@ -126,7 +126,10 @@ const LoginMenu: React.FC<LoginMenuProps> = (props: LoginMenuProps) => {
               setPassword(event.target.value);
             }}
           />
-          <Button sx={{ backgroundColor: "black", width: "100px" }}>
+          <Button
+            variant="contained"
+            sx={{ backgroundColor: "black", width: "100px" }}
+          >
             Login
           </Button>
         </Box>

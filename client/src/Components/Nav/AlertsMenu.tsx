@@ -83,6 +83,7 @@ const AlertsMenu: React.FC<AlertsMenuProps> = (props: AlertsMenuProps) => {
         <div>
           <Button
             onClick={() => setShouldShowConfigure(true)}
+            variant="contained"
             sx={{ backgroundColor: "black", margin: "6px 0px 6px 0px" }}
           >
             Configure Alerts

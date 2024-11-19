@@ -113,47 +113,75 @@ const ConfigureAlerts: React.FC<ConfigureAlertsProps> = (
               <MenuItem value={"Humidity"}>Humidity</MenuItem>
             </Select>
           </FormControl>
-          <FormControl>
-            <TextField
-              id="standard-basic-username"
-              label="Threshold"
-              variant="standard"
-              sx={{
-                width: "200px",
-                "& .MuiFormControl-root": {
-                  //height: "40px", // Adjust the overall height of the TextField
-                  //width: "260px", // Adjust the overall width of the TextField
-                },
-                "& .MuiInput-root": {
-                  //height: "100%", // Ensure input area fills the container
-                  //height: "45px", // Adjust input height
-                  //width: "260px", // Adjust input width
-                },
-                "& .MuiInputBase-input": {
-                  //class for the user-entered text
-                  color: "white",
-                },
-                "& .MuiInputLabel-root": {
-                  //class for the label / helper text
-                  //transform: "translate(0, 12px) scale(1)", // Adjust label position for alignment
-                  color: "white",
-                },
-                "& .MuiInputLabel-root.Mui-focused": {
-                  //class for the label / helper text when focused
-                  //transform: "translate(0, -6px) scale(0.75)", // Shrink label when focused
-                  color: "red",
-                },
-                "& .MuiInput-root:before": {
-                  borderBottomColor: "gray", // Default border color
-                },
-                "& .MuiInput-root:hover:before": {
-                  borderBottomColor: "darkgray", // Hover border color
-                },
-                "& .MuiInput-root:after": {
-                  borderBottomColor: "red", // Focused border color
-                },
-              }}
-            />
+          <FormControl sx={{}}>
+            <div style={{ display: "flex", gap: "8px" }}>
+              <p style={{ fontSize: "16px" }}>Threshold: </p>
+              <TextField
+                id="standard-basic-username"
+                variant="standard"
+                sx={{
+                  width: "200px",
+                  height: "40px", // Set the desired height for the TextField container
+                  "& .MuiInputBase-root": {
+                    height: "100% !important", // Force the root to span the parent height
+                    boxSizing: "border-box", // Ensure padding/borders don't affect height
+                    padding: "0", // Remove internal padding
+                    display: "flex", // Use flex for proper alignment
+                    alignItems: "center", // Vertically center content
+                    color: "white", //Input text colour
+                  },
+                  "& .MuiInput-root": {
+                    height: "100%", // Ensure the root fills the container
+                    boxSizing: "border-box", // Prevent borders/padding issues
+                    display: "flex",
+                    alignItems: "center", // Align input text
+                  },
+                  "& .MuiInputBase-input": {
+                    height: "100%", // Ensure input spans full height
+                    padding: "0", // Remove any default padding
+                    boxSizing: "border-box", // Avoid height calculation issues
+                    display: "flex",
+                    alignItems: "center", // Align text within input
+                    fontSize: "16px", // Set font size of text
+                  },
+                  /*
+                  "& .MuiInputLabel-root": {
+                    height: "100%", // Match the parent container height
+                    display: "flex",
+                    alignItems: "center", // Center label text vertically
+                    lineHeight: "normal", // Prevent default line height from affecting layout
+                    transform: "translate(0, 0) scale(1)", // Remove floating effect
+                    color: "white", // Label color
+                    pointerEvents: "none", // Prevent interaction with the label
+                  },
+                  "& .MuiInputLabel-root.Mui-focused": {
+                    color: "red", // Change label color on focus
+                    transform: "translate(0, -20px) scale(0.75)", // Floating label effect
+                    display: "none",
+                  },
+                  */
+                  "& .MuiInput-root:before": {
+                    content: '""',
+                    display: "block",
+                    position: "absolute",
+                    top: 0,
+                    left: 0,
+                    width: "100%",
+                    height: "100%",
+                    borderBottom: "1px solid gray", // Default border
+                  },
+                  "& .MuiInput-root:hover:before": {
+                    borderBottom: "2px solid currentColor", // Border on hover
+                  },
+                  "& .MuiInput-root:after": {
+                    display: "none", // Disable focus underline effect
+                  },
+                  "& label+.css-5h82ro-MuiInputBase-root-MuiInput-root": {
+                    marginTop: "0px",
+                  },
+                }}
+              />
+            </div>
           </FormControl>
 
           {!isResettingUnitsType && (
@@ -218,7 +246,7 @@ const ConfigureAlerts: React.FC<ConfigureAlertsProps> = (
           <FormControl>
             <Button
               variant="contained"
-              sx={{ backgroundColor: "black", width: "100px" }}
+              sx={{ backgroundColor: "black", width: "120px" }}
             >
               Add Alert
             </Button>
