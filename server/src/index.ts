@@ -7,13 +7,16 @@ import mongoose from "mongoose";
 import { visualCrossingRouter } from "./routes/visualCrossing.js";
 import { openWeatherMapRouter } from "./routes/openWeatherMap.js";
 import cors from "cors";
+import { fun } from "./db/index.js";
 
 dotenv.config();
 
 const app: Express = express();
 
+fun();
+
 //connect to mongoDB
-const dbURI: string =
+const mongoDBURI: string =
     "mongodb+srv://" +
     process.env.MONGO_DB_USER +
     ":" +
@@ -23,12 +26,17 @@ const dbURI: string =
     "?retryWrites=true&w=majority&appName=vc";
 
 mongoose
-    .connect(dbURI)
+    .connect(mongoDBURI)
     .then((result: typeof mongoose) => console.log("Connected to Mongo DB"))
     .catch((err: Error) => console.log(err));
 
 app.use(logRequest);
-app.use(cors());
+app.use(
+    cors({
+        origin: "http://localhost:8080",
+        credentials: true
+    })
+);
 
 app.get("/", (req: Request, res: Response) => {
     res.send("Successful response.");
