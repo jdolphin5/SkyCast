@@ -32,6 +32,7 @@ mongoose
     .catch((err: Error) => console.log(err));
 
 app.use(logRequest);
+app.use(express.json());
 app.use(
     cors({
         origin: "http://localhost:8080",
