@@ -4,6 +4,7 @@ import swaggerDocs from "./swagger.js"; // ts compiles to js
 import { reportError, getErrorMessage } from "./utils/error.js";
 import { logRequest } from "./middlewares/requestLogger.js";
 import mongoose from "mongoose";
+import { loginRouter } from "./routes/login.js";
 import { visualCrossingRouter } from "./routes/visualCrossing.js";
 import { openWeatherMapRouter } from "./routes/openWeatherMap.js";
 import cors from "cors";
@@ -43,6 +44,7 @@ app.get("/", (req: Request, res: Response) => {
 });
 
 //app.use("/visualCrossing", visualCrossingRoutes);
+app.use("/login", loginRouter);
 app.use("/openWeatherMap", openWeatherMapRouter);
 app.use("/visualCrossing", visualCrossingRouter);
 

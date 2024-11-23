@@ -2,6 +2,7 @@ import { Box, Button, TextField } from "@mui/material";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useForm, Controller } from "react-hook-form";
+import { loginCall } from "../../../Functions/API";
 
 type LoginFormData = {
   username: string;
@@ -13,19 +14,9 @@ const LoginForm: React.FC = () => {
 
   const onSubmit = async (data: LoginFormData) => {
     console.log(data); // Send this to your API
-    try {
-      const response = await axios.post(
-        "http://localhost:3000/login",
-        {
-          username: data.username,
-          password: data.password,
-        },
-        { withCredentials: true }
-      );
-      console.log("Response:", response.data);
-    } catch (error) {
-      console.error("Error signing in with username/password", error);
-    }
+    await loginCall(data.username, data.password).then((data: any | null) => {
+      console.log(data);
+    });
   };
 
   return (

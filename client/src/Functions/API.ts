@@ -8,6 +8,23 @@ import {
   OpenWeatherMap_Object,
 } from "../types";
 
+export const loginCall = async (
+  username: string,
+  password: string
+): Promise<any | null> => {
+  try {
+    const response = await axios.post("http://localhost:3000/login/", {
+      username: username,
+      password: password,
+      withCredentials: true,
+    });
+
+    return response;
+  } catch (error) {
+    console.error("Error signing in with username/password", error);
+  }
+};
+
 export const getCoordinatesData = async (
   city: string,
   state: string,
