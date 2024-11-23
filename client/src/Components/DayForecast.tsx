@@ -101,8 +101,3 @@ const DayForecast: React.FC<DayForecastProps> = (props: DayForecastProps) => {
 };
 
 export default DayForecast;
-function format_OpenWeatherMap_forecastIntoSummary(
-  weatherData: OpenWeatherMap_Object | null
-): any {
-  throw new Error("Function not implemented.");
-}
