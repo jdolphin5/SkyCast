@@ -9,6 +9,7 @@ import { Strategy as LocalStrategy } from "passport-local";
 import * as schema from "../db/schema.js";
 import { users } from "../db/schema.js";
 import { eq } from "drizzle-orm";
+import { saltAndHash } from "../utils/login.js";
 import bcrypt from "bcrypt";
 
 const databaseUrl = process.env.MYSQL_DATABASE_URL;
@@ -21,6 +22,7 @@ if (!databaseUrl) {
 
 const db = drizzle(databaseUrl, { schema, mode: "default" });
 
+/*
 passport.use(
     new GoogleStrategy(
         {
@@ -75,77 +77,62 @@ passport.use(
         }
     )
 );
-
-const verifyPassword = (formPassword: string, dbPassword: string) => {
-    return formPassword === dbPassword;
-};
+*/
 
 passport.use(
     new LocalStrategy(async (username: string, password: string, done: any) => {
         // Check if user already exists in our db
         const existingUser = await db.query.users.findFirst({
-            where: (users: { email: any }, { eq: any }: any) =>
-                eq(users.email, username)
+            where: (users: { username: any }, { eq: any }: any) =>
+                eq(users.username, username)
         });
 
-        console.log("Found user:", existingUser);
+        if (existingUser) {
+            console.log("Found user:", existingUser);
 
-        if (existingUser && existingUser.password) {
-            if (verifyPassword(password, existingUser.password)) {
-                /*
-            update last_login_date_time in prisma db
-          */
-
-                return done(null, existingUser);
-            } else {
-                console.log("wrong password");
-                return done(null, null);
+            if (existingUser.password) {
+                bcrypt.compare(
+                    password,
+                    existingUser.password,
+                    (err, result) => {
+                        if (err) {
+                            console.error("Error comparing password:", err);
+                            return done(null, null);
+                        } else if (result) {
+                            console.log("Password is correct!");
+                            return done(null, existingUser);
+                        } else {
+                            console.log("Password is incorrect.");
+                            return done(null, null);
+                        }
+                    }
+                );
             }
         }
-
-        const saltRounds: number = 10;
-
-        bcrypt.genSalt(saltRounds, (err, salt: any) => {
-            if (err) {
-                console.log("error generating salt for password");
-                return;
-            }
-
-            bcrypt.hash(password, salt, async (err, hash: any) => {
-                if (err) {
-                    console.log("error hashing password");
-                    return;
+        //if no user, create the user
+        else {
+            const hashedPassword = await saltAndHash(password, 10).then(
+                (pass: string) => {
+                    return pass;
                 }
+            );
 
-                console.log("hashed pw", hash);
-
-                const user = await db.query.users.findFirst({
-                    where: (users: { username: any }, { eq: any }: any) =>
-                        eq(users.username, username)
-                });
-
-                //if no user, create the user
-                if (!user) {
-                    const insertedUser = await db
-                        .insert(users)
-                        .values([
-                            {
-                                email: username,
-                                login_type: 0,
-                                password: hash,
-                                google_sub: null,
-                                access_level: 1,
-                                last_login_date_time: new Date()
-                            }
-                        ])
-                        .$returningId();
-                    console.log("Created user:", insertedUser);
-                    return done(null, insertedUser);
-                } else {
-                    console.log("user:", user);
-                }
-            });
-        });
+            const insertedUser = await db
+                .insert(users)
+                .values([
+                    {
+                        username: username,
+                        login_type: 0,
+                        password: hashedPassword,
+                        google_sub: null,
+                        access_level: 1,
+                        last_login_date_time: new Date()
+                    }
+                ])
+                .$returningId();
+            console.log("Created user:", insertedUser);
+            return done(null, insertedUser);
+        }
     })
 );
 
