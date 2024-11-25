@@ -19,9 +19,13 @@ export const loginCall = async (
       withCredentials: true,
     });
 
-    return response;
-  } catch (error) {
+    window.location.href = response.data.redirectUrl;
+  } catch (error: any) {
     console.error("Error signing in with username/password", error);
+
+    if (error.response) {
+      window.location.href = error.response.data.redirectUrl;
+    }
   }
 };
 

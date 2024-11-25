@@ -6,15 +6,25 @@ export const loginRouter: Router = express.Router({
     mergeParams: true
 });
 
-loginRouter.post(
-    "/",
-    passport.authenticate("local", {
-        failureRedirect: "http://localhost:8080/",
-        failureMessage: true
-    }),
-    async (req: Request, res: Response) => {
-        //successful authentication, redirect to :8080/loggedin
-        console.log("app.get(/locallogin req.user:", req.user);
-        res.send("http://localhost:8080/loggedin");
-    }
-);
+loginRouter.post("/", (req, res, next) => {
+    passport.authenticate("local", (err: Error, user: any, info: any) => {
+        if (err || !user) {
+            // Authentication failed, send a failure response
+            return res.status(401).json({
+                message: "Authentication failed",
+                redirectUrl: "http://localhost:8080/" // Provide the redirect URL for the client to handle
+            });
+        }
+        // Authentication successful, proceed to the next middleware
+        req.login(user, (err) => {
+            if (err) {
+                return next(err); // Handle login error
+            }
+            // Send success response
+            res.json({
+                message: "Authentication successful",
+                redirectUrl: "http://localhost:8080/loggedin" // Provide the redirect URL for the client to handle
+            });
+        });
+    })(req, res, next);
+});
