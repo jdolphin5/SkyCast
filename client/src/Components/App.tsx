@@ -17,6 +17,7 @@ import Loading from "./Loading";
 import SearchLocation from "./SearchLocation";
 
 const App: React.FC = () => {
+  const [refreshPeriod, setRefreshPeriod] = useState<string>("20 * * * *"); // was every minute: 20 * * * * *
   const [navigationSelected, setNavigationSelected] = useState<string>("none");
   const [shouldShowMenu, setShouldShowMenu] = useState<boolean>(false);
   const [coordinatesData, setCoordinatesData] =
@@ -88,7 +89,7 @@ const App: React.FC = () => {
     schedule.gracefulShutdown();
 
     if (lastAPICall === "get_coordinates") {
-      const job = schedule.scheduleJob("20 * * * * *", () => {
+      const job = schedule.scheduleJob("", () => {
         const city = lastCoordinatesAPICallParams?.city
           ? lastCoordinatesAPICallParams.city
           : DEFAULT_CITY;
@@ -104,7 +105,7 @@ const App: React.FC = () => {
         );
       });
     } else if (lastAPICall === "get_weather_object") {
-      const job = schedule.scheduleJob("20 * * * * *", () => {
+      const job = schedule.scheduleJob(refreshPeriod, () => {
         getWeatherData(
           paramsWeatherDataAPICallRef.current.lat,
           paramsWeatherDataAPICallRef.current.lon
