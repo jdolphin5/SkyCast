@@ -15,7 +15,7 @@ const db = drizzle(databaseUrl);
 
 export const fun = async () => {
     try {
-        const result = await db.select({ id: users.id }).from(users);
+        const result = await db.select({ id: users.customId }).from(users);
         console.log(result);
     } catch (error) {
         console.error("Error executing query", error);
