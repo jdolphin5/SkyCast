@@ -9,8 +9,11 @@ import { visualCrossingRouter } from "./routes/visualCrossing.js";
 import { openWeatherMapRouter } from "./routes/openWeatherMap.js";
 import cors from "cors";
 import { fun } from "./db/index.js";
+import { passport } from "./routes/request.js"; //import request for OAuth funcs
 
 dotenv.config();
+
+import session from "express-session";
 
 const app: Express = express();
 
@@ -32,13 +35,33 @@ mongoose
     .catch((err: Error) => console.log(err));
 
 app.use(logRequest);
-app.use(express.json());
+
 app.use(
     cors({
         origin: "http://localhost:8080",
         credentials: true
     })
 );
+
+app.options("*", cors()); // Ensure preflight OPTIONS requests are handled
+
+app.use(express.json());
+
+app.use(
+    session({
+        secret: String(process.env.SESSION_SECRET),
+        resave: false,
+        saveUninitialized: false,
+        cookie: {
+            secure: false, // Should be true in production with HTTPS
+            httpOnly: true, //prevent client-side scripts from accessing the cookie
+            sameSite: "lax"
+        }
+    })
+);
+
+app.use(passport.initialize());
+app.use(passport.session());
 
 app.get("/", (req: Request, res: Response) => {
     res.send("Successful response.");

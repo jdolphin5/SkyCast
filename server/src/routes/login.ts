@@ -1,18 +1,20 @@
 import express, { Request, Response, Router } from "express";
-import { login } from "../services/login.js";
 import { getErrorMessage } from "../utils/error.js";
+import passport from "passport";
 
 export const loginRouter: Router = express.Router({
     mergeParams: true
 });
 
-loginRouter.post("/", async (req: Request, res: Response) => {
-    const username: string = req.body.username;
-    const password: string = req.body.password;
-    try {
-        login(username, password);
-        res.json("login response");
-    } catch (error) {
-        reportError({ message: getErrorMessage(error) });
+loginRouter.post(
+    "/",
+    passport.authenticate("local", {
+        failureRedirect: "http://localhost:8080/",
+        failureMessage: true
+    }),
+    async (req: Request, res: Response) => {
+        //successful authentication, redirect to :8080/loggedin
+        console.log("app.get(/locallogin req.user:", req.user);
+        res.send("http://localhost:8080/loggedin");
     }
-});
+);
