@@ -13,7 +13,7 @@ export const loginCall = async (
   password: string
 ): Promise<any | null> => {
   try {
-    const response = await axios.post("http://localhost:3000/login/", {
+    const response = await axios.post("http://localhost:3000/auth/local/", {
       username: username,
       password: password,
       withCredentials: true,

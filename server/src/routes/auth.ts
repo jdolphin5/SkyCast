@@ -2,11 +2,11 @@ import express, { Request, Response, Router } from "express";
 import { getErrorMessage } from "../utils/error.js";
 import passport from "passport";
 
-export const loginRouter: Router = express.Router({
+export const authRouter: Router = express.Router({
     mergeParams: true
 });
 
-loginRouter.post("/", (req, res, next) => {
+authRouter.post("/local/", (req, res, next) => {
     passport.authenticate("local", (err: Error, user: any, info: any) => {
         if (err || !user) {
             // Authentication failed, send a failure response
@@ -23,7 +23,7 @@ loginRouter.post("/", (req, res, next) => {
             // Send success response
             res.json({
                 message: "Authentication successful",
-                redirectUrl: "http://localhost:8080/loggedin" // Provide the redirect URL for the client to handle
+                redirectUrl: "http://localhost:8080/auth/loggedin" // Provide the redirect URL for the client to handle
             });
         });
     })(req, res, next);
