@@ -7,4 +7,4 @@ The application will fetch weather data from a public API and display it with cr
 
 Frontend: HTML, CSS, Typescript, ReactJS, Webpack
 
-Backend: Typescript, NodeJS, ExpressJS, MS SQL, Drizzle ORM
+Backend: Typescript, NodeJS, ExpressJS, MySQL, Drizzle ORM
