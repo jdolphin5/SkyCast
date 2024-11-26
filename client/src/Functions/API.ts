@@ -13,15 +13,42 @@ export const loginCall = async (
   password: string
 ): Promise<any | null> => {
   try {
-    const response = await axios.post("http://localhost:3000/auth/local/", {
-      username: username,
-      password: password,
-      withCredentials: true,
-    });
+    const response = await axios.post(
+      "http://localhost:3000/auth/local/login",
+      {
+        username: username,
+        password: password,
+        withCredentials: true,
+      }
+    );
 
     window.location.href = response.data.redirectUrl;
   } catch (error: any) {
     console.error("Error signing in with username/password", error);
+
+    if (error.response) {
+      window.location.href = error.response.data.redirectUrl;
+    }
+  }
+};
+
+export const signupCall = async (
+  username: string,
+  password: string
+): Promise<any | null> => {
+  try {
+    const response = await axios.post(
+      "http://localhost:3000/auth/local/signup",
+      {
+        username: username,
+        password: password,
+        withCredentials: true,
+      }
+    );
+
+    window.location.href = response.data.redirectUrl;
+  } catch (error: any) {
+    console.error("Error signing up with username/password", error);
 
     if (error.response) {
       window.location.href = error.response.data.redirectUrl;

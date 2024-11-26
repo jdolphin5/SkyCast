@@ -2,7 +2,7 @@ import { Box, Button, TextField } from "@mui/material";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useForm, Controller } from "react-hook-form";
-import { loginCall } from "../../../Functions/API";
+import { loginCall, signupCall } from "../../../Functions/API";
 
 type LoginFormData = {
   username: string;
@@ -12,15 +12,22 @@ type LoginFormData = {
 const LoginForm: React.FC = () => {
   const { handleSubmit, control } = useForm<LoginFormData>();
 
-  const onSubmit = async (data: LoginFormData) => {
-    console.log(data); // Send this to your API
+  const onSubmitLogin = async (data: LoginFormData) => {
+    console.log("login button clicked");
     await loginCall(data.username, data.password).then((data: any | null) => {
       console.log(data);
     });
   };
 
+  const onSubmitSignup = async (data: LoginFormData) => {
+    console.log("signup button clicked");
+    await signupCall(data.username, data.password).then((data: any | null) => {
+      console.log(data);
+    });
+  };
+
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
+    <form>
       <Box sx={{ display: "flex", flexDirection: "column", gap: "8px" }}>
         <Controller
           name="username"
@@ -71,13 +78,14 @@ const LoginForm: React.FC = () => {
         />
         <div style={{ display: "flex", gap: "20px" }}>
           <Button
+            onClick={handleSubmit(onSubmitLogin)}
             variant="contained"
             sx={{ backgroundColor: "black", width: "100px" }}
           >
             Login
           </Button>
           <Button
-            type="submit"
+            onClick={handleSubmit(onSubmitSignup)}
             variant="contained"
             sx={{ backgroundColor: "black", width: "100px" }}
           >

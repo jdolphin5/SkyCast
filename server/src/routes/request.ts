@@ -2,15 +2,13 @@
 //const GoogleStrategy = require("passport-google-oauth20").Strategy;
 //const LocalStrategy = require("passport-local").Strategy;
 
-import { drizzle } from "drizzle-orm/mysql2";
 import passport from "passport";
 import { Strategy as GoogleStrategy } from "passport-google-oauth20";
 import { Strategy as LocalStrategy } from "passport-local";
-import * as schema from "../db/schema.js";
 import { users } from "../db/schema.js";
 import { eq } from "drizzle-orm";
-import { saltAndHash } from "../utils/login.js";
 import bcrypt from "bcrypt";
+import { db } from "../db/index.js";
 
 const databaseUrl = process.env.MYSQL_DATABASE_URL;
 
@@ -19,8 +17,6 @@ if (!databaseUrl) {
         "MYSQL_DATABASE_URL is not defined in environment variables."
     );
 }
-
-const db = drizzle(databaseUrl, { schema, mode: "default" });
 
 /*
 passport.use(
@@ -80,60 +76,45 @@ passport.use(
 */
 
 passport.use(
-    new LocalStrategy(async (username: string, password: string, done: any) => {
-        // Check if user already exists in our db
-        const existingUser = await db.query.users.findFirst({
-            where: (users: { username: any }, { eq: any }: any) =>
-                eq(users.username, username)
-        });
+    new LocalStrategy(
+        {
+            usernameField: "username", // Default field for username in form
+            passwordField: "password"
+        },
+        async (username: string, password: string, done: any) => {
+            try {
+                // Fetch user from the database
+                console.log("username:", username);
+                const user = await db
+                    .select()
+                    .from(users)
+                    .where(eq(users.username, username))
+                    .execute();
 
-        if (existingUser) {
-            console.log("Found user:", existingUser);
+                if (!user.length) {
+                    return done(null, false, {
+                        message: "Incorrect username or password"
+                    });
+                }
 
-            if (existingUser.password) {
-                bcrypt.compare(
+                // Compare the hashed passwords
+                const match = await bcrypt.compare(
                     password,
-                    existingUser.password,
-                    (err, result) => {
-                        if (err) {
-                            console.error("Error comparing password:", err);
-                            return done(null, null);
-                        } else if (result) {
-                            console.log("Password is correct!");
-                            return done(null, existingUser);
-                        } else {
-                            console.log("Password is incorrect.");
-                            return done(null, null);
-                        }
-                    }
+                    String(user[0].password)
                 );
+                if (!match) {
+                    return done(null, false, {
+                        message: "Incorrect username or password"
+                    });
+                }
+
+                // Authentication successful
+                return done(null, user[0]);
+            } catch (err) {
+                return done(err);
             }
         }
-        //if no user, create the user
-        else {
-            const hashedPassword = await saltAndHash(password, 10).then(
-                (pass: string) => {
-                    return pass;
-                }
-            );
-
-            const insertedUser = await db
-                .insert(users)
-                .values([
-                    {
-                        username: username,
-                        login_type: 0,
-                        password: hashedPassword,
-                        google_sub: null,
-                        access_level: 1,
-                        last_login_date_time: new Date()
-                    }
-                ])
-                .$returningId();
-            console.log("Created user:", insertedUser);
-            return done(null, insertedUser);
-        }
-    })
+    )
 );
 
 // Serialize user into the session

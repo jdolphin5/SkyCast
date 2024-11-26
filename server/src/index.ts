@@ -8,16 +8,18 @@ import { authRouter } from "./routes/auth.js";
 import { visualCrossingRouter } from "./routes/visualCrossing.js";
 import { openWeatherMapRouter } from "./routes/openWeatherMap.js";
 import cors from "cors";
-import { fun } from "./db/index.js";
+import { dbSelectFunction } from "./db/index.js";
 import { passport } from "./routes/request.js"; //import request for OAuth funcs
 
 dotenv.config();
 
+//should not be used in production environment - default session storage MemoryStore
+//likely to leak memory
 import session from "express-session";
 
 const app: Express = express();
 
-fun();
+dbSelectFunction();
 
 //connect to mongoDB
 const mongoDBURI: string =
@@ -39,14 +41,17 @@ app.use(logRequest);
 app.use(
     cors({
         origin: "http://localhost:8080",
+        methods: ["GET", "POST", "OPTIONS"],
         credentials: true
     })
 );
 
-app.options("*", cors()); // Ensure preflight OPTIONS requests are handled
+//ensure preflight OPTIONS requests are handled
+app.options("*", cors());
 
 app.use(express.json());
 
+//store session data on server-side using express-session middleware
 app.use(
     session({
         secret: String(process.env.SESSION_SECRET),
@@ -61,6 +66,7 @@ app.use(
 );
 
 app.use(passport.initialize());
+//same as app.use(passport.authenticate('session'));
 app.use(passport.session());
 
 app.get("/", (req: Request, res: Response) => {
