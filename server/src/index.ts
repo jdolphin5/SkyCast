@@ -51,14 +51,13 @@ app.options("*", cors());
 
 app.use(express.json());
 
-//store session data on server-side using express-session middleware
 app.use(
     session({
-        secret: String(process.env.SESSION_SECRET),
+        secret: process.env.SESSION_SECRET || "null secret",
         resave: false,
         saveUninitialized: false,
         cookie: {
-            secure: false, // Should be true in production with HTTPS
+            secure: false, //should be true in production with HTTPS
             httpOnly: true, //prevent client-side scripts from accessing the cookie
             sameSite: "lax"
         }

@@ -12,45 +12,20 @@ export const authRouter: Router = express.Router({
 
 authRouter.post(
     "/local/login",
-    (req: Request, res: Response, next: NextFunction) => {
-        passport.authenticate("local", (err: Error, user: any, info: any) => {
-            if (err) {
-                console.error("Error during login:", err);
-                return res.status(500).json({
-                    error: "An error occurred",
-                    message: "Authentication failed - error",
-                    redirectUrl: "http://localhost:8080/"
-                });
-            }
+    passport.authenticate("local", {
+        failureRedirect: "http://localhost:8080/",
+        failureMessage: true
+    }),
+    async (req: any, res: any) => {
+        //successful authentication, redirect to :8080/auth/loggedin
 
-            if (!user) {
-                console.log("User not found - authentication failed");
-
-                return res.status(401).json({
-                    error: info?.message || "Login failed",
-                    message: "User not found - authentication failed",
-                    redirectUrl: "http://localhost:8080/"
-                });
-            }
-
-            // Successful authentication
-            req.login(user, (loginErr) => {
-                if (loginErr) {
-                    console.log("Failed to log in user");
-
-                    return res.status(500).json({
-                        error: "Failed to log in user",
-                        message: "Failed to login user",
-                        redirectUrl: "http://localhost:8080/"
-                    });
-                }
-                return res.json({
-                    success: true,
-                    message: "Login successful",
-                    redirectUrl: "http://localhost:8080/auth/loggedin"
-                });
-            });
-        })(req, res, next); // Pass req, res, next to the middleware
+        console.log("Authenticated:", req.isAuthenticated());
+        console.log("Session:", req.session);
+        console.log("User:", req.user);
+        res.json({
+            message: "Login successful",
+            redirectUrl: "/auth/loggedin"
+        });
     }
 );
 
@@ -107,6 +82,10 @@ authRouter.post(
 );
 
 authRouter.get("/isAuthenticated", async (req: Request, res: Response) => {
+    console.log("authenticated:", req.isAuthenticated());
+    console.log("Session:", req.session);
+    console.log("User:", req.user);
+
     if (req.isAuthenticated()) {
         res.send({ isAuth: true });
     } else {

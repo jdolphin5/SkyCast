@@ -8,27 +8,21 @@ import {
   OpenWeatherMap_Object,
 } from "../types";
 
-export const loginCall = async (
-  username: string,
-  password: string
-): Promise<any | null> => {
+export const loginCall = async (username: string, password: string) => {
   try {
     const response = await axios.post(
       "http://localhost:3000/auth/local/login",
+      { username, password },
       {
-        username: username,
-        password: password,
         withCredentials: true,
       }
     );
-
-    window.location.href = response.data.redirectUrl;
-  } catch (error: any) {
-    console.error("Error signing in with username/password", error);
-
-    if (error.response) {
-      window.location.href = error.response.data.redirectUrl;
+    console.log("Login response:", response.data);
+    if (response.data.redirectUrl) {
+      window.location.href = response.data.redirectUrl;
     }
+  } catch (error: any) {
+    console.error("Login failed:", error.response?.data || error.message);
   }
 };
 
@@ -53,6 +47,22 @@ export const signupCall = async (
     if (error.response) {
       window.location.href = error.response.data.redirectUrl;
     }
+  }
+};
+
+export const isAuthenticatedCall = async (): Promise<any | null> => {
+  try {
+    const response = await axios.get(
+      "http://localhost:3000/auth/isAuthenticated",
+      {
+        //need to send session cookie with the request
+        withCredentials: true,
+      }
+    );
+
+    return response.data;
+  } catch (error) {
+    console.error("Error returning authentication status", error);
   }
 };
 

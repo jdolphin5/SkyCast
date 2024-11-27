@@ -12,17 +12,15 @@ type LoginFormData = {
 const LoginForm: React.FC = () => {
   const { handleSubmit, control } = useForm<LoginFormData>();
 
-  const onSubmitLogin = async (data: LoginFormData) => {
+  const onSubmitLogin = (data: LoginFormData) => {
     console.log("login button clicked");
-    await loginCall(data.username, data.password).then((data: any | null) => {
-      console.log(data);
-    });
+    loginCall(data.username, data.password);
   };
 
-  const onSubmitSignup = async (data: LoginFormData) => {
+  const onSubmitSignup = (data: LoginFormData) => {
     console.log("signup button clicked");
-    await signupCall(data.username, data.password).then((data: any | null) => {
-      console.log(data);
+    signupCall(data.username, data.password).then((data: any | null) => {
+      console.log("signup data", data);
     });
   };
 
