@@ -12,7 +12,11 @@ import {
   OpenWeatherMap_Object,
 } from "../types";
 import Menu from "./Nav/Menu";
-import { getCoordinatesData, getWeatherData } from "../Functions/API";
+import {
+  getCoordinatesData,
+  getWeatherData,
+  isAuthenticatedCall,
+} from "../Functions/API";
 import Loading from "./Loading";
 import SearchLocation from "./SearchLocation";
 
@@ -40,6 +44,8 @@ const App: React.FC = () => {
   const DEFAULT_COUNTRY: string = "AU";
 
   useEffect(() => {
+    isAuthenticatedCall().then((data: any) => console.log(data));
+
     getCoordinatesData(DEFAULT_CITY, DEFAULT_STATE, DEFAULT_COUNTRY).then(
       (data: OpenWeatherMap_Coordinates_Object | null) =>
         setCoordinatesData(data)
